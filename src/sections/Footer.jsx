@@ -147,18 +147,6 @@ const Footer = () => {
         marginBottom: '30px',
       }}>
         <a
-          href="mailto:victor10days@gmail.com"
-          style={{
-            color: COLORS.text,
-            fontSize: isMobile ? '14px' : '16px',
-            fontFamily: FONT,
-            transition: 'color 0.2s',
-          }}
-          {...hoverColor(COLORS.red, COLORS.text)}
-        >
-          victor10days@gmail.com
-        </a>
-        <a
           href="https://github.com/victor10days"
           target="_blank"
           rel="noopener noreferrer"
