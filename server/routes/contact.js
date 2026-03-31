@@ -1,7 +1,12 @@
 import { Router } from 'express';
 import nodemailer from 'nodemailer';
+import db from '../db.js';
 
 const router = Router();
+
+const insertContact = db.prepare(
+  `INSERT INTO contacts (name, email, subject, message, ip) VALUES (?, ?, ?, ?, ?)`
+);
 
 // Simple rate limiting: 1 message per IP per 60 seconds
 const recentSenders = new Map();
@@ -31,6 +36,13 @@ router.post('/', async (req, res) => {
   const lastSent = recentSenders.get(ip);
   if (lastSent && Date.now() - lastSent < COOLDOWN_MS) {
     return res.status(429).json({ error: 'Please wait before sending another message' });
+  }
+
+  // Save to database (before email, so we never lose a submission)
+  try {
+    insertContact.run(name, email, subject, message, ip);
+  } catch (dbErr) {
+    console.error('Failed to save contact:', dbErr.message);
   }
 
   try {

@@ -43,6 +43,16 @@ db.exec(`
     FOREIGN KEY (gallery_id) REFERENCES gallery(id) ON DELETE SET NULL
   );
 
+  CREATE TABLE IF NOT EXISTS contacts (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT NOT NULL,
+    email      TEXT NOT NULL,
+    subject    TEXT NOT NULL,
+    message    TEXT NOT NULL,
+    ip         TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS experience (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     role_en    TEXT NOT NULL,
