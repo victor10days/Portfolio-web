@@ -167,6 +167,18 @@ const translations = {
     ],
   },
 
+  // Contact form
+  contact: {
+    name: { en: 'Name', es: 'Nombre' },
+    email: { en: 'Email', es: 'Correo' },
+    subject: { en: 'Subject', es: 'Asunto' },
+    message: { en: 'Message', es: 'Mensaje' },
+    send: { en: 'Send', es: 'Enviar' },
+    sending: { en: 'Sending...', es: 'Enviando...' },
+    success: { en: 'Message sent!', es: '\u00a1Mensaje enviado!' },
+    error: { en: 'Failed to send. Try again.', es: 'Error al enviar. Int\u00e9ntalo de nuevo.' },
+  },
+
   // Footer
   footer: {
     copyright: { en: '\u00a9 2026 V\u00edctor E. D\u00edaz. San Juan, PR.', es: '\u00a9 2026 V\u00edctor E. D\u00edaz. San Juan, PR.' },

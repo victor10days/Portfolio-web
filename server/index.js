@@ -9,6 +9,7 @@ import galleryRoutes from './routes/gallery.js';
 import projectsRoutes from './routes/projects.js';
 import uploadRoutes from './routes/upload.js';
 import experienceRoutes from './routes/experience.js';
+import contactRoutes from './routes/contact.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/gallery', galleryRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/experience', experienceRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Production: serve Vite build
 if (process.env.NODE_ENV === 'production') {
