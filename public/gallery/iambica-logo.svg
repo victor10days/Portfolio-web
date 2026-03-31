@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <style>
+      .logo-text {
+        font-family: 'George', 'Georgia', serif;
+        font-size: 96px;
+        letter-spacing: 0.12em;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#222222" rx="12"/>
+
+  <!-- Main logotype — split to color the first "a" red -->
+  <text class="logo-text" y="230" text-anchor="middle">
+    <tspan x="400" fill="#FAF3E1">i</tspan><tspan fill="#D22B2B">a</tspan><tspan fill="#FAF3E1">mbica</tspan>
+  </text>
+
+  <!-- Subtle underline -->
+  <line x1="200" y1="258" x2="600" y2="258" stroke="#D22B2B" stroke-width="2" opacity="0.7"/>
+</svg>

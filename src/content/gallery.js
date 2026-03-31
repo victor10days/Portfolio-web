@@ -62,6 +62,12 @@ const gallery = [
     },
   },
   {
+    image: 'iambica-logo.svg',
+    title: { en: 'Iambica', es: 'Iambica' },
+    category: { en: 'Branding', es: 'Branding' },
+    year: '2025',
+  },
+  {
     image: 'caribbean-cinemas-logo.png',
     video: 'https://www.youtube.com/watch?v=8saunvDlCIk',
     title: { en: 'Caribbean Cinemas Policy Trailer', es: 'Tráiler de Políticas Caribbean Cinemas' },
