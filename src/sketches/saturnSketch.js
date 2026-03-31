@@ -64,15 +64,15 @@ const saturnSketch = (p) => {
     const oscGain = audioCtx.createGain();
     const filter = audioCtx.createBiquadFilter();
 
-    osc1.type = 'sine';
-    osc2.type = 'sine';
+    osc1.type = 'triangle';
+    osc2.type = 'triangle';
     osc1.frequency.value = baseFreq;
     osc2.frequency.value = baseFreq * 1.002;
 
     // Slow vibrato
     const lfo = audioCtx.createOscillator();
     const lfoGain = audioCtx.createGain();
-    lfo.type = 'sine';
+    lfo.type = 'triangle';
     lfo.frequency.value = 0.06 + Math.random() * 0.08;
     lfoGain.gain.value = 0.8;
     lfo.connect(lfoGain);
