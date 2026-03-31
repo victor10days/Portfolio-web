@@ -39,13 +39,17 @@ router.post('/', async (req, res) => {
       replyTo: email,
       to: process.env.GMAIL_USER,
       subject: `Portfolio Contact: ${subject}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
-      html: `
-        <p><strong>From:</strong> ${name} &lt;${email}&gt;</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <hr/>
-        <p>${message.replace(/\n/g, '<br/>')}</p>
-      `,
+      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`,
+      html: [
+        '<div style="font-family:sans-serif;max-width:600px">',
+        '<h3 style="margin:0 0 12px">New message from your portfolio</h3>',
+        `<p style="margin:4px 0"><strong>Name:</strong> ${name}</p>`,
+        `<p style="margin:4px 0"><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>`,
+        `<p style="margin:4px 0"><strong>Subject:</strong> ${subject}</p>`,
+        '<hr style="margin:16px 0"/>',
+        `<p>${message.replace(/\n/g, '<br/>')}</p>`,
+        '</div>',
+      ].join('\n'),
     });
 
     recentSenders.set(ip, Date.now());
