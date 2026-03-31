@@ -69,6 +69,28 @@ const ProjectsAdmin = ({ token }) => {
     load();
   };
 
+  const move = async (index, dir) => {
+    const next = [...items];
+    const swapIndex = index + dir;
+    if (swapIndex < 0 || swapIndex >= next.length) return;
+    [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
+    await Promise.all(next.map((item, i) =>
+      fetch(`/api/projects/${item.id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          name_en: item.name.en, name_es: item.name.es,
+          desc_en: item.desc.en, desc_es: item.desc.es,
+          status_en: item.status.en, status_es: item.status.es,
+          stack: item.stack,
+          category_en: item.category?.en || '', category_es: item.category?.es || '',
+          gallery_id: item.gallery_id ?? null, sort_order: i,
+        }),
+      })
+    ));
+    load();
+  };
+
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
   return (
@@ -113,6 +135,8 @@ const ProjectsAdmin = ({ token }) => {
               <span style={{ color: COLORS.textLight, fontSize: '11px', marginLeft: '8px' }}>[{item.stack.join(', ')}]</span>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
+              <button onClick={() => move(items.indexOf(item), -1)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 8px' }}>↑</button>
+              <button onClick={() => move(items.indexOf(item), 1)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 8px' }}>↓</button>
               <button onClick={() => startEdit(item)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 10px' }}>Edit</button>
               <button onClick={() => remove(item.id)} style={{ ...btnStyle, backgroundColor: '#8B0000', fontSize: '11px', padding: '4px 10px' }}>Delete</button>
             </div>

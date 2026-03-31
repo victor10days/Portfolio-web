@@ -73,6 +73,25 @@ const GalleryAdmin = ({ token }) => {
     setUploading(false);
   };
 
+  const move = async (index, dir) => {
+    const next = [...items];
+    const swapIndex = index + dir;
+    if (swapIndex < 0 || swapIndex >= next.length) return;
+    [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
+    await Promise.all(next.map((item, i) =>
+      fetch(`/api/gallery/${item.id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          image: item.image, video: item.video || '', title_en: item.title.en, title_es: item.title.es,
+          category_en: item.category.en, category_es: item.category.es, year: item.year,
+          desc_en: item.desc?.en || '', desc_es: item.desc?.es || '', sort_order: i,
+        }),
+      })
+    ));
+    load();
+  };
+
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
   return (
@@ -119,6 +138,8 @@ const GalleryAdmin = ({ token }) => {
               <span style={{ color: COLORS.textLight, fontSize: '11px', marginLeft: '8px' }}>{item.category.en} — {item.year}</span>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
+              <button onClick={() => move(items.indexOf(item), -1)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 8px' }}>↑</button>
+              <button onClick={() => move(items.indexOf(item), 1)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 8px' }}>↓</button>
               <button onClick={() => startEdit(item)} style={{ ...btnStyle, backgroundColor: COLORS.bgLight, fontSize: '11px', padding: '4px 10px' }}>Edit</button>
               <button onClick={() => remove(item.id)} style={{ ...btnStyle, backgroundColor: '#8B0000', fontSize: '11px', padding: '4px 10px' }}>Delete</button>
             </div>
