@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <style>
+      .alaver-text {
+        font-family: 'Georgia', serif;
+        font-size: 88px;
+        font-weight: bold;
+        letter-spacing: 0.08em;
+      }
+      .alaver-sub {
+        font-family: 'Georgia', serif;
+        font-size: 16px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#1d4354"/>
+
+  <!-- Main logotype -->
+  <text class="alaver-text" x="400" y="210" text-anchor="middle">
+    <tspan fill="#ffffff">Al</tspan><tspan fill="#259114">a</tspan><tspan fill="#ffffff">ver</tspan>
+  </text>
+
+  <!-- Subtle divider -->
+  <line x1="280" y1="238" x2="520" y2="238" stroke="#259114" stroke-width="2" opacity="0.6"/>
+
+  <!-- Subtitle -->
+  <text class="alaver-sub" x="400" y="270" text-anchor="middle" fill="#ffffff" opacity="0.5">Asociaci&#243;n de Ahorros y Pr&#233;stamos</text>
+</svg>

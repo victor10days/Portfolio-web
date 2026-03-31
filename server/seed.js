@@ -1,6 +1,6 @@
 import db from './db.js';
 
-// Gallery data — IDs after seed: 1=HBnB, 2=AI Optimizer, 3=Simple Shell, 4=Printf, 5=Toma Control, 6=Caribbean Cinemas, 7=Humanos Seguros, 8=IAMBICA
+// Gallery data — IDs after seed: 1=HBnB, 2=AI Optimizer, 3=Simple Shell, 4=Printf, 5=Toma Control, 6=Caribbean Cinemas, 7=Humanos Seguros, 8=IAMBICA, 9=Alaver
 const gallery = [
   {
     image: 'https://opengraph.githubassets.com/1/victor10days/holbertonschool-hbnb',
@@ -69,6 +69,15 @@ const gallery = [
     desc_en: 'Interactive web platform for a new media art festival. Real-time audience participation via mobile devices, with OSC integration for audiovisual systems.',
     desc_es: 'Plataforma web interactiva para un festival de new media art. Participación del público en tiempo real a través de dispositivos móviles, con integración OSC para sistemas audiovisuales.',
   },
+  {
+    image: 'alaver-logo.svg',
+    video: 'https://www.instagram.com/reel/DA-3Y_Sv0R_/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+    title_en: 'Alaver Commercial', title_es: 'Anuncio Alaver',
+    category_en: 'Audio', category_es: 'Audio',
+    year: '2024',
+    desc_en: 'Sound design and audio implementation for the Alaver 2024 commercial, created in collaboration with Adelobo Estudios.',
+    desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Alaver 2024, creado en colaboración con Adelobo Estudios.',
+  },
 ];
 
 // Projects data — grouped by category, with gallery_id references
@@ -110,6 +119,15 @@ const projects = [
     stack: JSON.stringify(['Sound Design', 'Pro Tools', 'Foley']),
     category_en: 'Audio', category_es: 'Audio',
     gallery_id: 6,
+  },
+  {
+    name_en: 'Alaver Commercial', name_es: 'Anuncio Alaver',
+    desc_en: 'Sound design and audio implementation for the Alaver 2024 commercial, created in collaboration with Adelobo Estudios.',
+    desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Alaver 2024, creado en colaboración con Adelobo Estudios.',
+    status_en: '2024', status_es: '2024',
+    stack: JSON.stringify(['Sound Design', 'Pro Tools', 'Foley']),
+    category_en: 'Audio', category_es: 'Audio',
+    gallery_id: 9,
   },
   // --- Full-Stack Development ---
   {
