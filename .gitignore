@@ -5,6 +5,7 @@ dist/
 # Large root-level media (not part of the app)
 /*.mov
 /*.png
+/*.JPG
 /Screenshot*
 FLYER*
 
