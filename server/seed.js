@@ -62,7 +62,7 @@ const gallery = [
     desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Humanos Seguros 2024, creado en colaboración con Adelobo Estudios.',
   },
   {
-    image: '',
+    image: 'iambica-logo.svg',
     title_en: 'IAMBICA', title_es: 'IAMBICA',
     category_en: 'In Progress', category_es: 'En progreso',
     year: '2026',
