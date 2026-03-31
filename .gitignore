@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.env
+
+# Large root-level media (not part of the app)
+/*.mov
+/*.png
+/Screenshot*
+FLYER*
+
+# Database (rebuilt by seed on deploy)
+server/data/portfolio.db
+server/data/portfolio.db-wal
+server/data/portfolio.db-shm
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+*.code-workspace
