@@ -38,6 +38,17 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Health check endpoint for self-ping
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+
+  // Self-ping every 14 minutes to keep Render service awake
+  if (process.env.RENDER_EXTERNAL_URL) {
+    const url = `${process.env.RENDER_EXTERNAL_URL}/api/health`;
+    setInterval(() => {
+      fetch(url).catch(() => {});
+    }, 14 * 60 * 1000);
+  }
 });
