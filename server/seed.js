@@ -1,6 +1,6 @@
 import db from './db.js';
 
-// Gallery data — IDs after seed: 1=HBnB, 2=AI Optimizer, 3=Simple Shell, 4=Printf, 5=Toma Control, 6=Caribbean Cinemas, 7=Humanos Seguros, 8=IAMBICA, 9=Alaver
+// Gallery data — IDs after seed: 1=HBnB, 2=AI Optimizer, 3=Simple Shell, 4=Printf, 5=Toma Control, 6=Caribbean Cinemas, 7=Humanos Seguros, 8=IAMBICA, 9=Alaver, 10=Aguavida, 11=Cara Hueca 34hz, 12=Tela de Pesca
 const gallery = [
   {
     image: 'https://opengraph.githubassets.com/1/victor10days/holbertonschool-hbnb',
@@ -77,6 +77,33 @@ const gallery = [
     year: '2024',
     desc_en: 'Sound design and audio implementation for the Alaver 2024 commercial, created in collaboration with Adelobo Estudios.',
     desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Alaver 2024, creado en colaboración con Adelobo Estudios.',
+  },
+  {
+    image: 'cyanea.png',
+    video: 'https://vimeo.com/1186513976',
+    title_en: 'Aguavida', title_es: 'Aguavida',
+    category_en: 'Sound Art', category_es: 'Arte Sonoro',
+    year: '2026',
+    desc_en: 'Processed equation: x(t) = cos(t), y(t) = sin(t). Let’s protect our waters and the lives that belong to them.',
+    desc_es: 'Ecuación procesada: x(t) = cos(t), y(t) = sin(t). Cuidemos nuestras aguas y las vidas que les pertenece.',
+  },
+  {
+    image: 'cara-hueca-34hz.png',
+    video: 'https://vimeo.com/1144271175',
+    title_en: 'Cara Hueca 34hz', title_es: 'Cara Hueca 34hz',
+    category_en: 'Sound Art', category_es: 'Arte Sonoro',
+    year: '2026',
+    desc_en: 'Rotating face vector. Stabilized at 35.1424hz.',
+    desc_es: 'Vector de cara en rotación. Estabilizado a 35.1424hz.',
+  },
+  {
+    image: 'orca.png',
+    video: 'https://vimeo.com/1144271321',
+    title_en: 'Tela de Pesca', title_es: 'Tela de Pesca',
+    category_en: 'Sound Art', category_es: 'Arte Sonoro',
+    year: '2026',
+    desc_en: 'Processed equation: v.y = cos · 3 · π, v.x = sin · 2 · π. Let’s protect our waters and the lives that belong to them.',
+    desc_es: 'Ecuación procesada: v.y = cos · 3 · π, v.x = sin · 2 · π. Cuidemos nuestras aguas y las vidas que les pertenece.',
   },
 ];
 

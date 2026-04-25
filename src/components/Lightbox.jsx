@@ -23,6 +23,13 @@ const getInstagramEmbedUrl = (url) => {
   return `${clean}/embed`;
 };
 
+const isVimeo = (url) => url && url.includes('vimeo.com');
+
+const getVimeoId = (url) => {
+  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return match ? match[1] : null;
+};
+
 const Lightbox = ({ item, onClose, onPrev, onNext }) => {
   const { lang } = useLanguage();
   const { isMobile } = useMobile();
@@ -100,6 +107,26 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
                 src={`https://www.youtube.com/embed/${getYouTubeId(item.video)}?autoplay=1`}
                 title={item.title[lang]}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{
+                  position: 'absolute',
+                  top: 0, left: 0,
+                  width: '100%', height: '100%',
+                  border: 'none',
+                }}
+              />
+            </div>
+          ) : isVimeo(item.video) ? (
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              paddingBottom: '56.25%',
+              marginBottom: '16px',
+            }}>
+              <iframe
+                src={`https://player.vimeo.com/video/${getVimeoId(item.video)}?autoplay=1`}
+                title={item.title[lang]}
+                allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
                 style={{
                   position: 'absolute',
