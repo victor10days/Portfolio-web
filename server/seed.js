@@ -198,9 +198,16 @@ const projects = [
 // Experience data
 const experience = [
   {
+    role_en: 'Software Engineer', role_es: 'Ingeniero de Software',
+    company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
+    date_en: 'May 2026 - Present', date_es: 'Mayo 2026 - Presente',
+    desc_en: 'Engineered agentic AI workflows and full-stack features (Next.js, FastAPI, PyTorch) for environmental consulting, leveraging LLMs, SAM2, and Claude-powered agents for geospatial analysis, automated parcel detection, and AI-driven report generation.',
+    desc_es: 'Se han diseñado flujos de trabajo de IA agentes y funcionalidades de pila completa (Next.js, FastAPI, PyTorch) para la consultoría medioambiental, aprovechando LLM, SAM2 y agentes basados en Claude para el análisis geoespacial, la detección automatizada de parcelas y la generación de informes impulsados por IA.',
+  },
+  {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
     company_en: 'Paleta Creativa', company_es: 'Paleta Creativa',
-    date_en: '2025 – Present', date_es: '2025 – Presente',
+    date_en: '2025 – March 2026', date_es: '2025 – Marzo 2026',
     desc_en: 'Clients include Warner Bros, Caribbean Cinemas, GFR Media, Mobil.',
     desc_es: 'Clientes incluyen Warner Bros, Caribbean Cinemas, GFR Media, Mobil.',
   },
