@@ -41,7 +41,8 @@ const Footer = () => {
       setStatus('success');
       setForm({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus(null), 4000);
-    } catch {
+    } catch (err) {
+      console.error('Contact submit failed:', err);
       setStatus('error');
       setTimeout(() => setStatus(null), 4000);
     }
