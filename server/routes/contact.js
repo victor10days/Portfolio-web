@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import nodemailer from 'nodemailer';
 import db from '../db.js';
+import { mailStatus, sendViaResend, sendViaGmail } from '../mail.js';
 
 const router = Router();
 
@@ -11,14 +11,6 @@ const insertContact = db.prepare(
 // Simple rate limiting: 1 message per IP per 60 seconds
 const recentSenders = new Map();
 const COOLDOWN_MS = 60_000;
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
 
 router.post('/', async (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -31,45 +23,67 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 
-  // Rate limit
+  // Rate limit. req.ip is the real client IP because index.js sets trust proxy.
   const ip = req.ip;
   const lastSent = recentSenders.get(ip);
   if (lastSent && Date.now() - lastSent < COOLDOWN_MS) {
     return res.status(429).json({ error: 'Please wait before sending another message' });
   }
 
-  // Save to database (before email, so we never lose a submission)
+  // Persist first, so a submission is never lost even if every email fails.
+  let saved = false;
   try {
     insertContact.run(name, email, subject, message, ip);
-  } catch (dbErr) {
-    console.error('Failed to save contact:', dbErr.message);
-  }
-
-  try {
-    await transporter.sendMail({
-      from: `"${name}" <${process.env.GMAIL_USER}>`,
-      replyTo: email,
-      to: process.env.GMAIL_USER,
-      subject: `Portfolio Contact: ${subject}`,
-      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`,
-      html: [
-        '<div style="font-family:sans-serif;max-width:600px">',
-        '<h3 style="margin:0 0 12px">New message from your portfolio</h3>',
-        `<p style="margin:4px 0"><strong>Name:</strong> ${name}</p>`,
-        `<p style="margin:4px 0"><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>`,
-        `<p style="margin:4px 0"><strong>Subject:</strong> ${subject}</p>`,
-        '<hr style="margin:16px 0"/>',
-        `<p>${message.replace(/\n/g, '<br/>')}</p>`,
-        '</div>',
-      ].join('\n'),
-    });
-
+    saved = true;
+    // Throttle on a successful save (not on email success) so retries are
+    // limited even when delivery fails.
     recentSenders.set(ip, Date.now());
-    res.json({ success: true });
-  } catch (err) {
-    console.error('Contact email failed:', err.message);
-    res.status(500).json({ error: 'Failed to send message' });
+  } catch (dbErr) {
+    console.error('[contact] Failed to save submission:', dbErr.message);
   }
+
+  // Notify, best-effort and per-channel. Resend is primary; Gmail is a fallback
+  // used only when Resend is unconfigured or fails.
+  const status = mailStatus();
+  const payload = { name, email, subject, message };
+  let delivered = false;
+  let via = null;
+
+  if (status.resendConfigured) {
+    try {
+      await sendViaResend(payload);
+      delivered = true;
+      via = 'resend';
+    } catch (err) {
+      console.error('[contact] Resend send failed:', err?.message);
+    }
+  }
+
+  if (!delivered && status.gmailConfigured) {
+    try {
+      await sendViaGmail(payload);
+      delivered = true;
+      via = 'gmail';
+    } catch (err) {
+      console.error('[contact] Gmail fallback failed:', err?.message);
+    }
+  }
+
+  if (!delivered) {
+    console.warn(
+      `[contact] Message ${saved ? 'saved to DB but NOT emailed' : 'NEITHER saved NOR emailed'} ` +
+      `(resendConfigured=${status.resendConfigured}, gmailConfigured=${status.gmailConfigured}).` +
+      (saved ? ' Recoverable via the admin Messages tab / GET /api/contacts.' : '')
+    );
+  }
+
+  // The message is safe as long as it was saved (recoverable) or emailed. Only
+  // report failure when it was neither, so a saved message never shows an error.
+  if (saved || delivered) {
+    return res.json({ success: true, delivered, via });
+  }
+
+  return res.status(500).json({ error: 'Failed to send message' });
 });
 
 export default router;
