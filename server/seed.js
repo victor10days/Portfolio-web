@@ -202,7 +202,7 @@ const experience = [
     company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
     date_en: 'May 2026 - Present', date_es: 'Mayo 2026 - Presente',
     desc_en: 'Engineered agentic AI workflows and full-stack features (Next.js, FastAPI, PyTorch) for environmental consulting, leveraging LLMs, SAM2, and Claude-powered agents for geospatial analysis, automated parcel detection, and AI-driven report generation.',
-    desc_es: 'Se han diseñado flujos de trabajo de IA agentes y funcionalidades de pila completa (Next.js, FastAPI, PyTorch) para la consultoría medioambiental, aprovechando LLM, SAM2 y agentes basados en Claude para el análisis geoespacial, la detección automatizada de parcelas y la generación de informes impulsados por IA.',
+    desc_es: 'Desarrollé flujos de trabajo con IA agéntica y funcionalidades full-stack (Next.js, FastAPI, PyTorch) para consultoría ambiental, integrando LLMs, SAM2 y agentes basados en Claude para análisis geoespacial, detección automatizada de parcelas y generación de informes con IA.',
   },
   {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
