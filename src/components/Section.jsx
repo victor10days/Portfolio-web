@@ -1,21 +1,13 @@
-import { useMobile } from '../hooks/useMobile';
-import { sectionBase, sectionPadding } from '../styles/theme';
-
-const Section = ({ id, bg, children, style }) => {
-  const { isMobile } = useMobile();
-
+// A section sized to its content, with the page gutter and a titled landmark.
+const Section = ({ id, title, className = '', children }) => {
+  const titleId = `${id}-title`;
   return (
-    <section
-      id={id}
-      aria-label={id}
-      style={{
-        ...sectionBase,
-        ...sectionPadding(isMobile),
-        backgroundColor: bg,
-        zIndex: 1,
-        ...style,
-      }}
-    >
+    <section id={id} className={`section wrap ${className}`.trim()} aria-labelledby={title ? titleId : undefined}>
+      {title && (
+        <h2 id={titleId} className="section__title">
+          {title}
+        </h2>
+      )}
       {children}
     </section>
   );

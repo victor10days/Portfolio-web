@@ -1,3 +1,5 @@
+// The home page is styled by src/index.css and tokens.css (see design.md at the project root).
+// These values remain for the admin pages and the lightbox, which keep their inline styles.
 export const COLORS = {
   bg: '#1A1A1A',
   bgLight: '#242424',
@@ -14,31 +16,6 @@ export const COLORS = {
 export const FONT = 'Georgia, serif';
 
 export const BREAKPOINTS = {
-  mobile: 500,
-  tablet: 768,
+  mobile: 640,
+  tablet: 960,
 };
-
-export const sectionBase = {
-  minHeight: '100dvh',
-  width: '100%',
-  position: 'relative',
-  overflow: 'hidden',
-  scrollSnapAlign: 'start',
-  boxSizing: 'border-box',
-};
-
-export const sectionPadding = (isMobile) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: isMobile ? '80px 16px 40px' : '80px 40px 40px',
-});
-
-export const sectionHeading = (isMobile) => ({
-  fontSize: isMobile ? '28px' : '36px',
-  color: COLORS.white,
-  marginBottom: isMobile ? '24px' : '40px',
-  textAlign: 'center',
-  letterSpacing: '3px',
-});

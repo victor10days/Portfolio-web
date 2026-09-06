@@ -8,10 +8,15 @@ const translations = {
     experience: { en: 'Experience', es: 'Experiencia' },
     education: { en: 'Education', es: 'Educación' },
     contact: { en: 'Contact', es: 'Contacto' },
+    work: { en: 'Work', es: 'Trabajo' },
   },
 
   // Hero
   hero: {
+    line: {
+      en: 'Creative technologist in San Juan: interactive media, sound design, music production and composition, full-stack development.',
+      es: 'Tecnólogo creativo en San Juan: medios interactivos, diseño sonoro, producción y composición musical, desarrollo full-stack.',
+    },
     subtitle: { en: 'aka Ten Days', es: 'aka Ten Days' },
     tagline1: {
       en: 'Creative Technologist \u2022 Interactive Media \u2022 Sound Design',
@@ -32,6 +37,10 @@ const translations = {
       es: 'Tecn\u00f3logo creativo con una s\u00f3lida formaci\u00f3n en m\u00fasica, dise\u00f1o sonoro y sistemas audiovisuales interactivos. Mi trabajo combina direcci\u00f3n art\u00edstica con ejecuci\u00f3n t\u00e9cnica, incluyendo visuales en tiempo real, entornos audio-reactivos, projection mapping, interfaces experimentales y sistemas de software full-stack.',
     },
     location: { en: 'San Juan, PR', es: 'San Juan, PR' },
+    aka: {
+      en: 'The music goes out as Ten Days.',
+      es: 'La música sale como Ten Days.',
+    },
   },
 
   // Skills
@@ -46,6 +55,7 @@ const translations = {
   // Projects
   projects: {
     title: { en: 'Projects', es: 'Proyectos' },
+    open: { en: 'see it in the gallery', es: 'verlo en la galería' },
     iambica: {
       name: { en: 'IAMBICA', es: 'IAMBICA' },
       desc: {
@@ -181,6 +191,7 @@ const translations = {
 
   // Footer
   footer: {
+    statement: { en: 'Tell me what you are making.', es: 'Cu\u00e9ntame qu\u00e9 est\u00e1s haciendo.' },
     copyright: { en: '\u00a9 2026 V\u00edctor E. D\u00edaz. San Juan, PR.', es: '\u00a9 2026 V\u00edctor E. D\u00edaz. San Juan, PR.' },
   },
 };

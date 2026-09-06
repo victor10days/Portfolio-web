@@ -200,14 +200,14 @@ const experience = [
   {
     role_en: 'Software Engineer', role_es: 'Ingeniero de Software',
     company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
-    date_en: 'May 2026 - Present', date_es: 'Mayo 2026 - Presente',
+    date_en: 'May 2026 – July 2026', date_es: 'Mayo 2026 – Julio 2026',
     desc_en: 'Engineered agentic AI workflows and full-stack features (Next.js, FastAPI, PyTorch) for environmental consulting, leveraging LLMs, SAM2, and Claude-powered agents for geospatial analysis, automated parcel detection, and AI-driven report generation.',
     desc_es: 'Desarrollé flujos de trabajo con IA agéntica y funcionalidades full-stack (Next.js, FastAPI, PyTorch) para consultoría ambiental, integrando LLMs, SAM2 y agentes basados en Claude para análisis geoespacial, detección automatizada de parcelas y generación de informes con IA.',
   },
   {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
     company_en: 'Paleta Creativa', company_es: 'Paleta Creativa',
-    date_en: '2025 – March 2026', date_es: '2025 – Marzo 2026',
+    date_en: '2025 – June 2026', date_es: '2025 – Junio 2026',
     desc_en: 'Clients include Warner Bros, Caribbean Cinemas, GFR Media, Mobil.',
     desc_es: 'Clientes incluyen Warner Bros, Caribbean Cinemas, GFR Media, Mobil.',
   },
@@ -242,7 +242,7 @@ const experience = [
   {
     role_en: 'Data Entry', role_es: 'Data Entry',
     company_en: 'CENCOR', company_es: 'CENCOR',
-    date_en: '2023 - 2024', date_es: '2023 - 2024',
+    date_en: '2023 – 2024', date_es: '2023 – 2024',
     desc_en: 'The Data Technician supports the Historic Buildings and Sites Division by entering, organizing, verifying, and backing up project data while assisting coordinators with scheduling and taking on additional tasks as needed.',
     desc_es: 'El técnico de datos presta apoyo a la División de Edificios y Sitios Históricos introduciendo, organizando, verificando y realizando copias de seguridad de los datos de los proyectos, a la vez que ayuda a los coordinadores con la programación y asume tareas adicionales según sea necesario.',
   },

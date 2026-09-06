@@ -1,23 +1,14 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './hooks/useLanguage';
-import { COLORS, FONT } from './styles/theme';
+import Home from './pages/Home.jsx';
 
-const Home = lazy(() => import('./pages/Home.jsx'));
+// The home page is the site; it loads with the bundle. Only the admin waits for its own chunk.
 const Admin = lazy(() => import('./pages/Admin.jsx'));
 
 const Loading = () => (
-  <div style={{
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.bg,
-    fontFamily: FONT,
-    color: COLORS.text,
-    fontSize: '16px',
-  }}>
-    Loading...
+  <div className="wrap" style={{ paddingTop: 'var(--space-3xl)', color: 'var(--color-muted)' }}>
+    Loading…
   </div>
 );
 
