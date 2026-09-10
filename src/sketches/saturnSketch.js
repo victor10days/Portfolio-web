@@ -8,7 +8,8 @@ const saturnSketch = (p) => {
   let globalMouseX = 0;
   let globalMouseY = 0;
 
-  // Warm palette for depth and atmosphere
+  // Warm palette for depth and atmosphere. The ground is not painted here: the
+  // canvas is cleared each frame and the page's --color-paper shows through.
   const CORE_COLOR = [255, 240, 220];
   const RING1_COLOR = [220, 200, 180];
   const RING2_COLOR = [200, 190, 210];
@@ -182,7 +183,10 @@ const saturnSketch = (p) => {
     // Belt and braces: GenerativeBackground's IntersectionObserver can call
     // loop() independently, so paused really means paused.
     if (disposed || !motionOn) return;
-    p.background(28, 28, 28);
+    // Cleared, not painted: the ground is the page's --color-paper through a
+    // transparent canvas, so tokens.css owns the ground and the container's
+    // opacity can recede the whole field (see .sketch in index.css).
+    p.clear();
     counter += 0.003;
 
     const cx = p.width / 2;
