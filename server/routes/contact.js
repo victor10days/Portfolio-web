@@ -25,6 +25,11 @@ router.post('/', async (req, res) => {
 
   // Rate limit. req.ip is the real client IP because index.js sets trust proxy.
   const ip = req.ip;
+  // Drop expired entries so the map does not grow for the life of the process.
+  const now = Date.now();
+  for (const [key, at] of recentSenders) {
+    if (now - at > COOLDOWN_MS) recentSenders.delete(key);
+  }
   const lastSent = recentSenders.get(ip);
   if (lastSent && Date.now() - lastSent < COOLDOWN_MS) {
     return res.status(429).json({ error: 'Please wait before sending another message' });
