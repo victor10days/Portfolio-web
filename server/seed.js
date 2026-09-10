@@ -156,7 +156,38 @@ const projects = [
     category_en: 'Audio', category_es: 'Audio',
     gallery_id: 9,
   },
+  // --- Audio Software ---
+  {
+    name_en: 'cumple', name_es: 'cumple',
+    desc_en: 'Delivery QC for audio: a CLI, a watch folder and a desktop app for macOS, Windows and Linux that measure a mix against Netflix, Amazon, Disney+, EBU R 128 or cinema trailer specs, name the clause that fails, quote it and suggest the fix. BS.1770-5 loudness and true-peak meters written from the standard, passing all 29 EBU test cases; 39 destination profiles, 190 tests, and an audio diff that reports offset, gain, polarity and residual.',
+    desc_es: 'Control de calidad de entregas de audio: un CLI, una carpeta vigilada y una app de escritorio para macOS, Windows y Linux que miden una mezcla contra las especificaciones de Netflix, Amazon, Disney+, EBU R 128 o de tr\u00e1iler de cine, se\u00f1alan la cl\u00e1usula que falla, la citan y sugieren el arreglo. Medidores de loudness y true peak BS.1770-5 escritos desde el est\u00e1ndar, que pasan los 29 casos de prueba de la EBU; 39 perfiles de destino, 190 pruebas y un diff de audio que reporta desfase, ganancia, polaridad y residual.',
+    status_en: '2026', status_es: '2026',
+    stack: JSON.stringify(['Python', 'NumPy', 'SciPy', 'libsndfile', 'Typer', 'Pydantic', 'AppleScript']),
+    category_en: 'Audio Software', category_es: 'Software de Audio',
+    gallery_id: null,
+    link: 'https://github.com/victor10days/cumple',
+  },
   // --- Full-Stack Development ---
+  {
+    name_en: 'Bellonera', name_es: 'Bellonera',
+    desc_en: 'Song auction for bars and the DJs who play them: guests scan a code, search any song and bid from $3, and the room watches the bid on the big screen while a three-minute clock extends 20 seconds on every late bid. Three surfaces (guest phone, big screen, DJ console), and the winner is charged only when the DJ marks the song played; payments are simulated in this build.',
+    desc_es: 'Subasta de canciones para bares y para los DJ que ponen la m\u00fasica: el p\u00fablico escanea un c\u00f3digo, busca cualquier canci\u00f3n y puja desde $3, y la sala ve la puja en la pantalla grande mientras un reloj de tres minutos se extiende 20 segundos con cada puja de \u00faltimo minuto. Tres pantallas (el celular del p\u00fablico, la pantalla grande y la consola del DJ), y al ganador se le cobra solo cuando el DJ marca la canci\u00f3n como tocada; los pagos est\u00e1n simulados en esta versi\u00f3n.',
+    status_en: '2026 \u00b7 live', status_es: '2026 \u00b7 en producci\u00f3n',
+    stack: JSON.stringify(['Python', 'FastAPI', 'SQLAlchemy', 'Alembic', 'PostgreSQL', 'SSE', 'TypeScript', 'React', 'Vite', 'Playwright', 'Render']),
+    category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
+    gallery_id: null,
+    link: 'https://bellonera-app.onrender.com',
+  },
+  {
+    name_en: 'Regulatory Records Extractor', name_es: 'Extractor de Registros Regulatorios',
+    desc_en: 'Pulls structured regulatory records out of long environmental PDFs: an async job queue behind a REST API, chunked processing with retry and backoff, schema-validated model output, and cost reported per job.',
+    desc_es: 'Extrae registros regulatorios estructurados de PDFs ambientales largos: una cola de trabajos as\u00edncrona detr\u00e1s de una API REST, procesamiento por bloques con reintentos y backoff, salida del modelo validada por esquema y costo reportado por trabajo.',
+    status_en: '2026', status_es: '2026',
+    stack: JSON.stringify(['Python', 'FastAPI', 'Anthropic API', 'pdfplumber', 'Pydantic']),
+    category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
+    gallery_id: null,
+    link: null,
+  },
   {
     name_en: 'HBnB Evolution', name_es: 'HBnB Evolution',
     desc_en: 'Complete full-stack rental platform with user authentication, property management, and review system.',
@@ -198,11 +229,11 @@ const projects = [
 // Experience data
 const experience = [
   {
-    role_en: 'Software Engineer', role_es: 'Ingeniero de Software',
+    role_en: 'Jr. Software Engineer', role_es: 'Ingeniero de Software Jr.',
     company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
     date_en: 'May 2026 – July 2026', date_es: 'Mayo 2026 – Julio 2026',
-    desc_en: 'Engineered agentic AI workflows and full-stack features (Next.js, FastAPI, PyTorch) for environmental consulting, leveraging LLMs, SAM2, and Claude-powered agents for geospatial analysis, automated parcel detection, and AI-driven report generation.',
-    desc_es: 'Desarrollé flujos de trabajo con IA agéntica y funcionalidades full-stack (Next.js, FastAPI, PyTorch) para consultoría ambiental, integrando LLMs, SAM2 y agentes basados en Claude para análisis geoespacial, detección automatizada de parcelas y generación de informes con IA.',
+    desc_en: 'Built and shipped the AI features of an environmental-report platform used by consultants: LLM-driven report generation, Claude-based agents and SAM2 parcel detection, on FastAPI services in Docker over PostgreSQL/PostGIS behind GitHub Actions CI. Owned evaluation: ground-truth datasets and IoU/precision/recall harnesses scoring automated output against human analysts, about 80% agreement, measured before every release.',
+    desc_es: 'Construí y lancé las funcionalidades de IA de una plataforma de informes ambientales usada por consultores: generación de informes con LLMs, agentes basados en Claude y detección de parcelas con SAM2, sobre servicios FastAPI en Docker con PostgreSQL/PostGIS e integración continua en GitHub Actions. Me encargué de la evaluación: conjuntos de datos de referencia y pruebas de IoU/precisión/recall que comparaban la salida automatizada con la de analistas humanos, cerca de 80% de coincidencia, medidas antes de cada lanzamiento.',
   },
   {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
@@ -264,8 +295,8 @@ const insertGallery = db.prepare(
 );
 
 const insertProject = db.prepare(
-  `INSERT INTO projects (name_en, name_es, desc_en, desc_es, status_en, status_es, stack, category_en, category_es, gallery_id, sort_order)
-   VALUES (@name_en, @name_es, @desc_en, @desc_es, @status_en, @status_es, @stack, @category_en, @category_es, @gallery_id, @sort_order)`
+  `INSERT INTO projects (name_en, name_es, desc_en, desc_es, status_en, status_es, stack, category_en, category_es, gallery_id, link, sort_order)
+   VALUES (@name_en, @name_es, @desc_en, @desc_es, @status_en, @status_es, @stack, @category_en, @category_es, @gallery_id, @link, @sort_order)`
 );
 
 const insertExperience = db.prepare(
@@ -289,7 +320,7 @@ const seedAll = db.transaction(() => {
   });
 
   projects.forEach((item, i) => {
-    insertProject.run({ ...item, gallery_id: item.gallery_id ?? null, sort_order: i });
+    insertProject.run({ ...item, gallery_id: item.gallery_id ?? null, link: item.link ?? null, sort_order: i });
   });
 
   experience.forEach((item, i) => {

@@ -463,6 +463,26 @@ button.work__row {
   overflow-wrap: anywhere;
 }
 
+.work__link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-top: var(--space-2xs);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  transition: color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .work__link:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+}
+
 .work__open {
   font-size: var(--text-xs);
   color: var(--color-accent);
@@ -776,6 +796,12 @@ textarea.input {
   border-top: var(--rule-hair) solid var(--color-rule);
   font-size: var(--text-sm);
   color: var(--color-muted);
+}
+
+.foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
 }
 
 /* --- motion: nothing moves but state changes; reduced motion collapses even those --- */

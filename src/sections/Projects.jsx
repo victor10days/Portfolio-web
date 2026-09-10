@@ -4,7 +4,7 @@ import Section from '../components/Section';
 import ProjectCard from '../components/ProjectCard';
 import { useApi } from '../hooks/useApi';
 
-const CATEGORY_ORDER = ['Interactive', 'Audio', 'Full-Stack Development'];
+const CATEGORY_ORDER = ['Interactive', 'Audio', 'Audio Software', 'Full-Stack Development'];
 
 const Projects = () => {
   const { lang } = useLanguage();

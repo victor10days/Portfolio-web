@@ -38,6 +38,7 @@ db.exec(`
     category_en   TEXT NOT NULL DEFAULT '',
     category_es   TEXT NOT NULL DEFAULT '',
     gallery_id    INTEGER,
+    link          TEXT,
     sort_order    INTEGER DEFAULT 0,
     created_at    TEXT DEFAULT (datetime('now')),
     FOREIGN KEY (gallery_id) REFERENCES gallery(id) ON DELETE SET NULL
@@ -67,5 +68,13 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 `);
+
+// CREATE TABLE IF NOT EXISTS is a no-op on a database that already exists, and
+// production runs off a persistent disk, so new columns need an explicit
+// migration or the next seed throws on an unknown column.
+const projectColumns = db.prepare('PRAGMA table_info(projects)').all().map((c) => c.name);
+if (!projectColumns.includes('link')) {
+  db.exec('ALTER TABLE projects ADD COLUMN link TEXT');
+}
 
 export default db;

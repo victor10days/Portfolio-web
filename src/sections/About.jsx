@@ -10,13 +10,14 @@ const About = () => {
       <div className="about">
         <img
           className="about__photo"
-          src="/images/profile.jpg"
+          src="/images/profile-900.jpg"
           alt="Víctor E. Díaz Diez"
           width="320"
           height="427"
           loading="lazy"
         />
         <div className="about__text">
+          <p>{t('about.profile', lang)}</p>
           <p>{t('about.bio', lang)}</p>
           <p>{t('about.aka', lang)}</p>
           <div className="about__meta">{t('about.location', lang)}</div>

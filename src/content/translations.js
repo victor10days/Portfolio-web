@@ -32,6 +32,10 @@ const translations = {
   // About
   about: {
     title: { en: 'About', es: 'Sobre M\u00ed' },
+    profile: {
+      en: 'Software engineer with an audio engineer\u2019s training: Berklee for electronic production and design, Holberton for software engineering, and studio sessions for Warner Bros. and Caribbean Cinemas in between. I build tools for workflows I learned first-hand.',
+      es: 'Ingeniero de software con formaci\u00f3n de ingeniero de audio: Berklee en producci\u00f3n y dise\u00f1o electr\u00f3nico, Holberton en ingenier\u00eda de software, y sesiones de estudio para Warner Bros. y Caribbean Cinemas en el medio. Construyo herramientas para flujos de trabajo que conozco de primera mano.',
+    },
     bio: {
       en: 'Creative technologist with a strong foundation in music, sound design, and interactive audiovisual systems. My work blends artistic direction with technical execution, including real-time visuals, audio-reactive environments, projection mapping, experimental interfaces, and full-stack software systems.',
       es: 'Tecn\u00f3logo creativo con una s\u00f3lida formaci\u00f3n en m\u00fasica, dise\u00f1o sonoro y sistemas audiovisuales interactivos. Mi trabajo combina direcci\u00f3n art\u00edstica con ejecuci\u00f3n t\u00e9cnica, incluyendo visuales en tiempo real, entornos audio-reactivos, projection mapping, interfaces experimentales y sistemas de software full-stack.',
@@ -48,7 +52,8 @@ const translations = {
     title: { en: 'Skills', es: 'Habilidades' },
     creativeTech: { en: 'Creative Technologies', es: 'Tecnolog\u00edas Creativas' },
     development: { en: 'Development', es: 'Desarrollo' },
-    audio: { en: 'Audio', es: 'Audio' },
+    backendAI: { en: 'Backend & AI', es: 'Backend e IA' },
+    audio: { en: 'Audio & DSP', es: 'Audio y DSP' },
     languages: { en: 'Languages', es: 'Idiomas' },
   },
 
@@ -158,7 +163,7 @@ const translations = {
       {
         school: { en: 'Holberton Coding School', es: 'Holberton Coding School' },
         degree: { en: 'Software Engineering Intensive', es: 'Programa Intensivo de Ingenier\u00eda de Software' },
-        date: { en: '2025 \u2013 2026', es: '2025 \u2013 2026' },
+        date: { en: 'March 2025 \u2013 March 2026', es: 'Marzo 2025 \u2013 Marzo 2026' },
         location: { en: 'San Juan, PR', es: 'San Juan, PR' },
       },
       {
@@ -166,12 +171,12 @@ const translations = {
         degree: { en: 'BA Music: Electronic Production & Design', es: 'BA M\u00fasica: Producci\u00f3n Electr\u00f3nica y Dise\u00f1o' },
         date: { en: '2019 \u2013 2021', es: '2019 \u2013 2021' },
         location: { en: 'Boston, MA', es: 'Boston, MA' },
-        note: { en: 'Thrive Scholarship Recipient', es: 'Recipiente de la Beca Thrive' },
+        note: { en: 'Thrive Scholarship Recipient & Dean\u2019s List', es: 'Recipiente de la Beca Thrive y Lista del Decano' },
       },
       {
         school: { en: 'Conservatory of Music of PR', es: 'Conservatorio de M\u00fasica de PR' },
         degree: { en: 'Composition, Theory & Musicology', es: 'Composici\u00f3n, Teor\u00eda y Musicolog\u00eda' },
-        date: { en: '2014 \u2013 2018', es: '2014 \u2013 2018' },
+        date: { en: '2014 \u2013 2017', es: '2014 \u2013 2017' },
         location: { en: 'San Juan, PR', es: 'San Juan, PR' },
       },
     ],
