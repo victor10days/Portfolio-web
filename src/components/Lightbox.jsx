@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '../hooks/useLanguage';
 import { t } from '../content/translations';
 
@@ -85,7 +86,10 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
     <img className="lb__img" src={getImageSrc(item)} alt={item.title[lang]} />
   );
 
-  return (
+  // Rendered into <body>: main.page is position:relative with a z-index, which
+  // creates a stacking context the modal would otherwise be trapped inside,
+  // painting underneath anything fixed outside it however high its z-index.
+  return createPortal(
     <div
       className="lb"
       onClick={onClose}
@@ -123,7 +127,8 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
