@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
 import { t } from '../content/translations';
 import { useApi } from '../hooks/useApi';
@@ -17,26 +17,39 @@ const repoPath = (item) => item.image.split('/').slice(-2).join('/');
 
 const Gallery = () => {
   const { lang } = useLanguage();
-  const [selected, setSelected] = useState(null);
   const { data: gallery, loading, error } = useApi('/api/gallery');
 
-  const handleClose = useCallback(() => setSelected(null), []);
-  const handlePrev = useCallback(
-    () => setSelected((prev) => (prev - 1 + (gallery?.length || 0)) % (gallery?.length || 1)),
+  // The open item is held as a gallery id, not an index, and the index is
+  // derived. A project row can ask for an item before /api/gallery has
+  // answered, and on a cold start it often does; keeping the id means the
+  // request resolves itself when the data lands instead of being dropped.
+  const [selectedId, setSelectedId] = useState(null);
+  const selected = useMemo(() => {
+    if (selectedId == null || !gallery) return null;
+    const idx = gallery.findIndex((item) => item.id === selectedId);
+    return idx === -1 ? null : idx;
+  }, [selectedId, gallery]);
+
+  const handleClose = useCallback(() => setSelectedId(null), []);
+  const step = useCallback(
+    (delta) => {
+      if (!gallery?.length) return;
+      setSelectedId((currentId) => {
+        const idx = gallery.findIndex((item) => item.id === currentId);
+        if (idx === -1) return currentId;
+        return gallery[(idx + delta + gallery.length) % gallery.length].id;
+      });
+    },
     [gallery]
   );
-  const handleNext = useCallback(() => setSelected((prev) => (prev + 1) % (gallery?.length || 1)), [gallery]);
+  const handlePrev = useCallback(() => step(-1), [step]);
+  const handleNext = useCallback(() => step(1), [step]);
 
   useEffect(() => {
-    const handleOpenItem = (e) => {
-      const { galleryId } = e.detail;
-      if (!gallery) return;
-      const idx = gallery.findIndex((item) => item.id === galleryId);
-      if (idx !== -1) setSelected(idx);
-    };
+    const handleOpenItem = (e) => setSelectedId(e.detail?.galleryId ?? null);
     window.addEventListener('open-gallery-item', handleOpenItem);
     return () => window.removeEventListener('open-gallery-item', handleOpenItem);
-  }, [gallery]);
+  }, []);
 
   if (loading) return null;
   if (error || !gallery) return <p className="note">{t('errors.list', lang)}</p>;
@@ -45,7 +58,7 @@ const Gallery = () => {
     <>
       <div className="gallery">
         {gallery.map((item, i) => (
-          <button type="button" key={i} className="tile" onClick={() => setSelected(i)} aria-label={item.title[lang]}>
+          <button type="button" key={i} className="tile" onClick={() => setSelectedId(item.id)} aria-label={item.title[lang]}>
             {isLinkCard(item) ? (
               <span className="tile__cover">
                 <b>{item.title[lang]}</b>

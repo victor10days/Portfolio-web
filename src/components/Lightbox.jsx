@@ -3,8 +3,13 @@ import { createPortal } from 'react-dom';
 import { useLanguage } from '../hooks/useLanguage';
 import { t } from '../content/translations';
 
-const getImageSrc = (item) =>
-  item.image.startsWith('http') ? item.image : `/gallery/${item.image}`;
+// Must stay in step with Gallery's copy: an admin upload comes back as an
+// absolute /uploads/... path, and prefixing /gallery/ onto it 404s.
+const getImageSrc = (item) => {
+  if (item.image.startsWith('http')) return item.image;
+  if (item.image.startsWith('/')) return item.image;
+  return `/gallery/${item.image}`;
+};
 
 const isYouTube = (url) =>
   url && (url.includes('youtube.com') || url.includes('youtu.be'));
@@ -32,12 +37,29 @@ const getVimeoId = (url) => {
 const Lightbox = ({ item, onClose, onPrev, onNext }) => {
   const { lang } = useLanguage();
   const closeRef = useRef(null);
+  // Captured during render of the first commit, before focus moves to the
+  // close button, so it still holds the tile that opened the dialog.
+  const openerRef = useRef(typeof document !== 'undefined' ? document.activeElement : null);
 
   useEffect(() => {
+    const opener = openerRef.current;
     closeRef.current?.focus();
 
+    // aria-modal only claims the rest of the page is inert. inert makes it
+    // true: without it Tab walks out of the dialog into the nav and the form,
+    // which the screen reader has been told are hidden, and whose focus ring
+    // is painted underneath the scrim.
+    const root = document.getElementById('root');
+    root?.setAttribute('inert', '');
+
     const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      // A focused <video> uses the arrows to seek. Without this, seeking also
+      // advances the gallery and destroys the element mid-playback.
+      if (e.target?.closest?.('video, audio, input, textarea, select')) return;
       if (e.key === 'ArrowRight') onNext();
       if (e.key === 'ArrowLeft') onPrev();
     };
@@ -46,6 +68,10 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
     return () => {
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
+      root?.removeAttribute('inert');
+      // Put the user back where they were instead of dropping them at the top
+      // of the document.
+      opener?.focus?.();
     };
   }, [onClose, onNext, onPrev]);
 

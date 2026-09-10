@@ -8,9 +8,12 @@ const Experience = () => {
   const { lang } = useLanguage();
   const { data, loading, error } = useApi('/api/experience');
 
-  if (loading) return null;
+  // Rendered in every state so #experience exists for the nav even before the
+  // API answers.
+  if (loading) {
+    return <Section id="experience" title={t('experience.title', lang)} />;
+  }
 
-  // Keep the Section (and its #experience anchor) so the nav still works.
   if (error || !data) {
     return (
       <Section id="experience" title={t('experience.title', lang)}>

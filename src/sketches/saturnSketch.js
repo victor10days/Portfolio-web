@@ -104,6 +104,27 @@ const saturnSketch = (p) => {
     osc1.onended = () => { grainCount--; };
   }
 
+  // Registered at sketch scope, not inside setup(). p5 runs setup asynchronously
+  // (it waits for window load when the document is still parsing), so anything
+  // installed in there is missing during the window where the page is already
+  // painted and the buttons are already clickable.
+  let motionOn = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let disposed = false;
+
+  const onMouseMove = (e) => { globalMouseX = e.clientX; globalMouseY = e.clientY; };
+  const onTouchMove = (e) => { globalMouseX = e.touches[0].clientX; globalMouseY = e.touches[0].clientY; };
+
+  function announceMotion() {
+    window.dispatchEvent(new CustomEvent('saturn-motion-state', { detail: { on: motionOn } }));
+  }
+
+  function toggleMotion() {
+    motionOn = !motionOn;
+    if (motionOn) p.loop();
+    else p.noLoop();
+    announceMotion();
+  }
+
   function toggleAudio() {
     if (!audioCtx) initAudio();
     if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -114,35 +135,53 @@ const saturnSketch = (p) => {
     window.dispatchEvent(new CustomEvent('saturn-audio-state', { detail: { on: audioEnabled } }));
   }
 
+  window.addEventListener('saturn-audio-toggle', toggleAudio);
+  window.addEventListener('saturn-motion-toggle', toggleMotion);
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove, { passive: true });
+
+  // p5 exposes no teardown hook, and wrapping remove() inside setup() is too
+  // late: on a remount after page load the constructor starts immediately, so
+  // cleanup can reach the prototype method while setup() is still pending and
+  // leave an orphan instance drawing forever. Wrapping here means the own
+  // property exists before the constructor returns.
+  const originalRemove = p.remove.bind(p);
+  p.remove = () => {
+    disposed = true;
+    window.removeEventListener('saturn-audio-toggle', toggleAudio);
+    window.removeEventListener('saturn-motion-toggle', toggleMotion);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('touchmove', onTouchMove);
+    // Browsers cap concurrent AudioContexts per document; leaking one per
+    // remount eventually makes the audio button stop responding.
+    if (audioCtx) {
+      audioCtx.close().catch(() => {});
+      audioCtx = null;
+      masterGain = null;
+    }
+    return originalRemove();
+  };
+
   p.setup = () => {
+    // p5 runs setup asynchronously, so an instance can be removed before it
+    // ever gets here. Without this it would build a canvas nobody holds and
+    // leave it drawing forever.
+    if (disposed) return;
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.noFill();
     p.strokeCap(p.ROUND);
     p.frameRate(30);
 
-    // The toggle is a React component (AudioToggle); it asks for a change
-    // through this event rather than the sketch building its own button.
-    window.addEventListener('saturn-audio-toggle', toggleAudio);
-
-    // Track mouse globally since canvas is behind content layers
-    const onMouseMove = (e) => { globalMouseX = e.clientX; globalMouseY = e.clientY; };
-    const onTouchMove = (e) => { globalMouseX = e.touches[0].clientX; globalMouseY = e.touches[0].clientY; };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('touchmove', onTouchMove, { passive: true });
-
-    // p5 exposes no teardown hook, so wrap remove() to drop the listeners.
-    // Without this, StrictMode's double mount leaves a second toggle handler
-    // attached and every click flips the audio twice.
-    const originalRemove = p.remove.bind(p);
-    p.remove = () => {
-      window.removeEventListener('saturn-audio-toggle', toggleAudio);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('touchmove', onTouchMove);
-      originalRemove();
-    };
+    // Someone who asked the OS for less motion gets a still frame by default;
+    // the toggle can still turn it on.
+    if (!motionOn) p.noLoop();
+    announceMotion();
   };
 
   p.draw = () => {
+    // Belt and braces: GenerativeBackground's IntersectionObserver can call
+    // loop() independently, so paused really means paused.
+    if (disposed || !motionOn) return;
     p.background(28, 28, 28);
     counter += 0.003;
 

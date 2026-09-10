@@ -476,6 +476,11 @@ button.work__row {
     border-color var(--dur-micro) var(--ease-out);
 }
 
+/* Shown when the row is already a button, so it is text, not a control. */
+.work__link--static {
+  border-bottom-color: transparent;
+}
+
 @media (hover: hover) {
   .work__link:hover {
     color: var(--color-accent);
@@ -804,11 +809,16 @@ textarea.input {
 
 /* --- ambient sound toggle: the sketch's one control, on the page's tokens --- */
 
-.audio {
+.controls {
   position: fixed;
   right: var(--space-md);
   bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
   z-index: var(--z-sticky);
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.controls__btn {
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -821,12 +831,12 @@ textarea.input {
     border-color var(--dur-micro) var(--ease-out);
 }
 
-.audio[aria-pressed='true'] {
+.controls__btn[aria-pressed='true'] {
   color: var(--color-ink);
 }
 
 @media (hover: hover) {
-  .audio:hover {
+  .controls__btn:hover {
     color: var(--color-accent);
     border-color: var(--color-accent);
   }
@@ -966,6 +976,14 @@ textarea.input {
   border-top: var(--rule-hair) solid var(--color-rule);
   padding-top: var(--space-sm);
   margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .foot {
+    /* Room for the fixed control cluster, which otherwise covers the contact
+       links on the last row. */
+    padding-bottom: calc(var(--space-xl) + 3rem);
+  }
 }
 
 .foot__links {

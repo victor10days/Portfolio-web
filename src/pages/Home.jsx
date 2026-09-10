@@ -1,7 +1,7 @@
 import { useLanguage } from '../hooks/useLanguage';
 import { t } from '../content/translations';
 import Header from '../components/Header';
-import AudioToggle from '../components/AudioToggle';
+import SketchControls from '../components/AudioToggle';
 import GenerativeBackground from '../components/GenerativeBackground';
 import saturnSketch from '../sketches/saturnSketch';
 import Hero from '../sections/Hero';
@@ -23,7 +23,7 @@ const Home = () => {
         {t('a11y.skip', lang)}
       </a>
       <Header />
-      <AudioToggle />
+      <SketchControls />
       <main className="page">
         <Hero />
         <About />

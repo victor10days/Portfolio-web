@@ -104,6 +104,7 @@ const translations = {
     menuOpen: { en: 'Open the menu', es: 'Abrir el men\u00fa' },
     menuClose: { en: 'Close the menu', es: 'Cerrar el men\u00fa' },
     sound: { en: 'Ambient sound', es: 'Sonido ambiental' },
+    motion: { en: 'Background motion', es: 'Movimiento de fondo' },
   },
 
   lightbox: {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
 import { t } from '../content/translations';
+import { scrollToElement } from '../lib/scroll';
 
 // N5 floating pill: the wordmark, three destinations, the language switch. Under 40 rem the pill
 // spans the top with a menu button that opens the full list of sections.
@@ -13,14 +14,14 @@ const Header = () => {
   const [open, setOpen] = useState(false);
 
   const go = (id) => {
-    document.getElementById(TARGET[id] || id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToElement(document.getElementById(TARGET[id] || id));
     setOpen(false);
   };
 
   return (
     <>
       <nav className="nav" aria-label={t('a11y.nav', lang)}>
-        <button type="button" className="nav__mark" onClick={() => go('hero')} aria-label={t('a11y.top', lang)}>
+        <button type="button" className="nav__mark" onClick={() => go('hero')} aria-label={`V.10 ${t('a11y.top', lang)}`}>
           V<i>.</i>10
         </button>
         <ul className="nav__links">

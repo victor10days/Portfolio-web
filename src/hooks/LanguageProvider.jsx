@@ -7,6 +7,10 @@ const STORAGE_KEY = 'lang';
 // useState initialiser would run during render, and reading localStorage is
 // not a pure operation — react-hooks/purity flags exactly that.
 const readInitialLang = () => {
+  // This module is evaluated at import time, so it must not assume a browser:
+  // any prerender or a component test without jsdom would throw here and take
+  // the whole import graph down with it.
+  if (typeof window === 'undefined') return 'en';
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (saved === 'en' || saved === 'es') return saved;
