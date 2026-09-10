@@ -11,12 +11,17 @@ import uploadRoutes from './routes/upload.js';
 import experienceRoutes from './routes/experience.js';
 import contactRoutes from './routes/contact.js';
 import contactsRoutes from './routes/contacts.js';
+import { mailStatus, verifyTransports } from './mail.js';
 
 dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Behind Render's proxy, so req.ip reads the real client from X-Forwarded-For
+// (one hop). Without this the rate limiter buckets every visitor together.
+app.set('trust proxy', 1);
 
 app.use(cors());
 app.use(express.json());
@@ -43,6 +48,18 @@ app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+
+  // Surface email configuration at boot so a misconfiguration is visible.
+  const mail = mailStatus();
+  console.log(
+    `[mail] Resend: ${mail.resendConfigured ? 'configured' : 'MISSING (set RESEND_API_KEY + MAIL_FROM + MAIL_TO)'} | ` +
+    `Gmail fallback: ${mail.gmailConfigured ? 'configured' : 'off'} | ` +
+    `from=${mail.mailFrom || '(unset)'} to=${mail.mailTo || '(unset)'}`
+  );
+  if (!mail.resendConfigured && !mail.gmailConfigured) {
+    console.warn('[mail] No email channel configured — messages will save to DB only (recoverable via the admin Messages tab).');
+  }
+  verifyTransports();
 
   // Self-ping every 14 minutes to keep Render service awake
   if (process.env.RENDER_EXTERNAL_URL) {

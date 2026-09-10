@@ -6,7 +6,7 @@ const router = Router();
 
 // GET /api/contacts — admin only, newest first
 router.get('/', auth, (_req, res) => {
-  const rows = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
+  const rows = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC, id DESC').all();
   res.json(rows);
 });
 

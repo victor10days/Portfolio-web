@@ -4,6 +4,7 @@ import AdminLogin from '../components/admin/AdminLogin';
 import GalleryAdmin from '../components/admin/GalleryAdmin';
 import ProjectsAdmin from '../components/admin/ProjectsAdmin';
 import ExperienceAdmin from '../components/admin/ExperienceAdmin';
+import MessagesAdmin from '../components/admin/MessagesAdmin';
 
 const tabStyle = (active) => ({
   padding: '8px 20px',
@@ -33,6 +34,7 @@ const Admin = () => {
           <button onClick={() => setTab('gallery')} style={tabStyle(tab === 'gallery')}>Gallery</button>
           <button onClick={() => setTab('projects')} style={tabStyle(tab === 'projects')}>Projects</button>
           <button onClick={() => setTab('experience')} style={tabStyle(tab === 'experience')}>Experience</button>
+          <button onClick={() => setTab('messages')} style={tabStyle(tab === 'messages')}>Messages</button>
         </div>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <a href="/" style={{ color: COLORS.textLight, fontSize: '12px', fontFamily: FONT }}>View Site</a>
@@ -42,6 +44,7 @@ const Admin = () => {
       {tab === 'gallery' && <GalleryAdmin token={token} />}
       {tab === 'projects' && <ProjectsAdmin token={token} />}
       {tab === 'experience' && <ExperienceAdmin token={token} />}
+      {tab === 'messages' && <MessagesAdmin token={token} />}
     </div>
   );
 };

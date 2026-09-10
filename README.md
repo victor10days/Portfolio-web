@@ -39,12 +39,38 @@ npm install
 
 ### Environment variables
 
-Create a `.env` file in the root:
+Create a `.env` file in the root (see `.env.example` for the full template):
 
 ```env
+# Admin auth
 JWT_SECRET=your_secret_here
+ADMIN_HASH=your_bcrypt_hash_here
 PORT=3001
+
+# Contact email — primary sender (Resend)
+RESEND_API_KEY=your_resend_api_key_here
+MAIL_FROM=Portfolio <contact@tendaysmusic.com>
+MAIL_TO=you@example.com
+
+# Contact email — optional Gmail fallback
+GMAIL_USER=you@gmail.com
+GMAIL_APP_PASSWORD=your_gmail_app_password_here
 ```
+
+**Contact form email.** Messages submitted through the contact form are always
+saved to the SQLite `contacts` table first (viewable in the admin **Messages**
+tab), then a notification email is sent best-effort: Resend is the primary
+sender, with the Gmail transporter as a fallback. If no email channel is
+configured, submissions are still saved and recoverable from the admin panel.
+
+Notes for production (Render):
+
+- Set `RESEND_API_KEY`, `MAIL_FROM`, and `MAIL_TO` in the Render dashboard.
+- Verify the `MAIL_FROM` domain in Resend (add the DNS records Resend provides
+  at your registrar) so it can send.
+- Mount a Render **persistent disk** at the `server/data` path so the `contacts`
+  table survives redeploys. Without it, the disk is ephemeral and stored
+  messages are lost on each deploy.
 
 ### Seed the database
 
