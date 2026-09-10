@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { gallery, projects, experience } from '../data.js';
@@ -33,6 +33,19 @@ describe('projects', () => {
       if (p.gallery_id == null) continue;
       expect(p.gallery_id, `"${p.name_en}" gallery_id`).toBeGreaterThanOrEqual(1);
       expect(p.gallery_id, `"${p.name_en}" gallery_id`).toBeLessThanOrEqual(gallery.length);
+    }
+  });
+
+  it('points at the gallery piece of the same name', () => {
+    // Gallery ids are positional, so removing or inserting an item renumbers
+    // everything after it. An id that is merely in range is not enough: a
+    // wrong-but-valid id silently opens the wrong piece. Every project that
+    // has a gallery piece is named after it, so that is the invariant.
+    for (const p of projects) {
+      if (p.gallery_id == null) continue;
+      const item = gallery[p.gallery_id - 1];
+      expect(item, `"${p.name_en}" -> gallery_id ${p.gallery_id}`).toBeDefined();
+      expect(item.title_en, `"${p.name_en}" -> gallery_id ${p.gallery_id}`).toBe(p.name_en);
     }
   });
 
@@ -78,6 +91,18 @@ describe('experience', () => {
     expect(ama.date_en).not.toMatch(/present/i);
     expect(ama.date_es).not.toMatch(/presente/i);
   });
+
+  it('leads the Ama entry with the parcel boundary overlay', () => {
+    // The resume leads with it, and the standalone project row carries the
+    // detail. Both must survive an edit to either file, or the site quietly
+    // reverts to describing the flagship work as "the AI features".
+    const ama = experience.find((e) => e.company_en === 'Ama Earth Group');
+    expect(ama.desc_en).toMatch(/^Built the parcel boundary overlay/);
+    expect(ama.desc_en).toMatch(/SAM2/);
+    expect(ama.desc_es).toMatch(/^Construí la superposición de límites de parcela/);
+    expect(ama.desc_es).toMatch(/SAM2/);
+    expect(projects.some((p) => p.name_en === 'Parcel Boundary Overlay')).toBe(true);
+  });
 });
 
 describe('gallery', () => {
@@ -87,6 +112,30 @@ describe('gallery', () => {
       bilingual(g, 'category');
       expect(g.image, `"${g.title_en}" image`).toBeTruthy();
       expect(g.year, `"${g.title_en}" year`).toBeTruthy();
+    }
+  });
+});
+
+describe('gallery assets', () => {
+  it('every local image actually exists on disk', () => {
+    for (const g of gallery) {
+      if (g.image.startsWith('http')) continue;
+      // Gallery.jsx: an absolute path is served as-is, a bare name comes from
+      // public/gallery.
+      const rel = g.image.startsWith('/')
+        ? join('server', g.image.replace(/^\//, ''))
+        : join('public', 'gallery', g.image);
+      const onDisk = g.image.startsWith('/uploads/')
+        ? join(root, 'server', g.image.replace(/^\//, ''))
+        : join(root, rel);
+      expect(existsSync(onDisk), `${g.title_en} -> ${g.image} (${onDisk})`).toBe(true);
+    }
+  });
+
+  it('every local video actually exists on disk', () => {
+    for (const g of gallery) {
+      if (!g.video || /^https?:/.test(g.video)) continue;
+      expect(existsSync(join(root, 'public', g.video.replace(/^\//, ''))), `${g.title_en} -> ${g.video}`).toBe(true);
     }
   });
 });

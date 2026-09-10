@@ -1,42 +1,13 @@
 // Seed content, kept apart from the seeding side effect so tests can import
 // and check it without touching the database.
 
-// Gallery data — IDs after seed: 1=HBnB, 2=AI Optimizer, 3=Simple Shell, 4=Printf, 5=Toma Control, 6=Caribbean Cinemas, 7=Humanos Seguros, 8=IAMBICA, 9=Alaver, 10=Aguavida, 11=Cara Hueca 34hz, 12=Tela de Pesca
+// Gallery data — IDs after seed: 1=Toma Control, 2=Caribbean Cinemas, 3=Humanos Seguros,
+// 4=IAMBICA, 5=Alaver, 6=Aguavida, 7=Cara Hueca 34hz, 8=Tela de Pesca.
+// Positional: the seed resets sqlite_sequence, so inserting anywhere but the end
+// renumbers everything after it and silently repoints projects at the wrong piece.
 const gallery = [
-  {
-    image: 'https://opengraph.githubassets.com/1/victor10days/holbertonschool-hbnb',
-    title_en: 'HBnB Evolution', title_es: 'HBnB Evolution',
-    category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
-    year: '2025',
-    desc_en: 'A complete, production-ready rental property management platform built with Python, Flask, SQLAlchemy, and JavaScript. Demonstrates RESTful API design, database integration, authentication, and full-stack web development.',
-    desc_es: 'Una plataforma completa de gestión de propiedades de alquiler construida con Python, Flask, SQLAlchemy y JavaScript. Demuestra diseño de API RESTful, integración de bases de datos, autenticación y desarrollo web full-stack.',
-  },
-  {
-    image: 'https://opengraph.githubassets.com/1/victor10days/apexive-hackaton-odoo',
-    title_en: 'AI Business Process Optimizer', title_es: 'Optimizador de Procesos con IA',
-    category_en: 'AI / ERP', category_es: 'IA / ERP',
-    year: '2025',
-    desc_en: 'An enterprise Odoo 16.0 ERP add-on for automated process analysis and optimization using multi-provider AI integration (Anthropic Claude & OpenAI GPT). Identifies bottlenecks and generates optimization recommendations with ROI projections.',
-    desc_es: 'Un módulo empresarial para Odoo 16.0 que analiza y optimiza procesos de negocio mediante integración de IA multi-proveedor (Anthropic Claude y OpenAI GPT). Identifica cuellos de botella y genera recomendaciones de optimización con proyecciones de ROI.',
-  },
-  {
-    image: 'https://opengraph.githubassets.com/1/victor10days/holbertonschool-simple_shell',
-    title_en: 'Simple Shell', title_es: 'Simple Shell',
-    category_en: 'Systems Programming', category_es: 'Programación de Sistemas',
-    year: '2025',
-    desc_en: 'A lightweight UNIX command interpreter written in C. Features built-in commands, PATH searching, fork/execve execution, signal handling, and memory-safe operation verified with Valgrind.',
-    desc_es: 'Un intérprete de comandos UNIX ligero escrito en C. Incluye comandos integrados, búsqueda en PATH, ejecución con fork/execve, manejo de señales y operación segura en memoria verificada con Valgrind.',
-  },
-  {
-    image: 'https://opengraph.githubassets.com/1/victor10days/holbertonschool-low_level_programming',
-    title_en: 'Printf', title_es: 'Printf',
-    category_en: 'Systems Programming', category_es: 'Programación de Sistemas',
-    year: '2025',
-    desc_en: 'A custom implementation of the standard C library function printf. Explores variadic functions, function pointers, and modular C programming.',
-    desc_es: 'Una implementación personalizada de la función printf de la biblioteca estándar de C. Explora funciones variádicas, punteros a funciones y programación modular en C.',
-  },
-  {
-    image: 'toma-control-flyer.png',
+{
+    image: 'toma-control-flyer.webp',
     video: '/videos/toma-control-recap.mp4',
     title_en: 'Toma Control', title_es: 'Toma Control',
     category_en: 'Interactive Event', category_es: 'Evento Interactivo',
@@ -44,7 +15,7 @@ const gallery = [
     desc_en: 'An immersive audiovisual party where participants shape sound and image in real time through interactive stations with voice and electronic instruments, generating live oscilloscope-based visuals. Built with TouchDesigner, MaxMSP, and Pure Data.',
     desc_es: 'Una fiesta audiovisual inmersiva donde los participantes moldean sonido e imagen en tiempo real a través de estaciones interactivas con voz e instrumentos electrónicos, generando visuales en vivo basados en osciloscopio. Construido con TouchDesigner, MaxMSP y Pure Data.',
   },
-  {
+{
     image: '/uploads/1774712099411-unnamed.png',
     video: 'https://www.youtube.com/watch?v=8saunvDlCIk',
     title_en: 'Caribbean Cinemas Policy Trailer', title_es: 'Tráiler de Políticas Caribbean Cinemas',
@@ -53,7 +24,7 @@ const gallery = [
     desc_en: 'Sound design and audio implementation for the Caribbean Cinemas policy trailer, created in collaboration with Paleta Creativa.',
     desc_es: 'Diseño sonoro e implementación de audio para el tráiler de políticas de Caribbean Cinemas, creado en colaboración con Paleta Creativa.',
   },
-  {
+{
     image: '/uploads/1774711659996-unnamed-(1).png',
     video: 'https://www.youtube.com/watch?v=ei6vcByEARU&list=RDei6vcByEARU&start_radio=1',
     title_en: 'Humanos Seguros Commercial', title_es: 'Anuncio Humanos Seguro',
@@ -62,7 +33,7 @@ const gallery = [
     desc_en: 'Sound design and audio implementation for the Humanos Seguros 2024 commercial, created in collaboration with Adelobo Estudios.',
     desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Humanos Seguros 2024, creado en colaboración con Adelobo Estudios.',
   },
-  {
+{
     image: 'iambica-logo.svg',
     title_en: 'IAMBICA', title_es: 'IAMBICA',
     category_en: 'In Progress', category_es: 'En progreso',
@@ -70,7 +41,7 @@ const gallery = [
     desc_en: 'Interactive web platform for a new media art festival. Real-time audience participation via mobile devices, with OSC integration for audiovisual systems.',
     desc_es: 'Plataforma web interactiva para un festival de new media art. Participación del público en tiempo real a través de dispositivos móviles, con integración OSC para sistemas audiovisuales.',
   },
-  {
+{
     image: 'alaver-logo.svg',
     video: 'https://www.instagram.com/reel/DA-3Y_Sv0R_/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
     title_en: 'Alaver Commercial', title_es: 'Anuncio Alaver',
@@ -79,8 +50,8 @@ const gallery = [
     desc_en: 'Sound design and audio implementation for the Alaver 2024 commercial, created in collaboration with Adelobo Estudios.',
     desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Alaver 2024, creado en colaboración con Adelobo Estudios.',
   },
-  {
-    image: 'cyanea.png',
+{
+    image: 'cyanea.webp',
     video: 'https://vimeo.com/1186513976',
     title_en: 'Aguavida', title_es: 'Aguavida',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
@@ -88,8 +59,8 @@ const gallery = [
     desc_en: 'Processed equation: x(t) = cos(t), y(t) = sin(t). Let’s protect our waters and the lives that belong to them.',
     desc_es: 'Ecuación procesada: x(t) = cos(t), y(t) = sin(t). Cuidemos nuestras aguas y las vidas que les pertenece.',
   },
-  {
-    image: 'cara-hueca-34hz.png',
+{
+    image: 'cara-hueca-34hz.webp',
     video: 'https://vimeo.com/1144271175',
     title_en: 'Cara Hueca 34hz', title_es: 'Cara Hueca 34hz',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
@@ -97,8 +68,8 @@ const gallery = [
     desc_en: 'Rotating face vector. Stabilized at 35.1424hz.',
     desc_es: 'Vector de cara en rotación. Estabilizado a 35.1424hz.',
   },
-  {
-    image: 'orca.png',
+{
+    image: 'orca.webp',
     video: 'https://vimeo.com/1144271321',
     title_en: 'Tela de Pesca', title_es: 'Tela de Pesca',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
@@ -118,7 +89,7 @@ const projects = [
     status_en: 'In Progress', status_es: 'En Progreso',
     stack: JSON.stringify(['React 19', 'p5.js', 'WebSockets', 'OSC', 'Express', 'SQLite', 'Web Audio API']),
     category_en: 'Interactive', category_es: 'Interactivo',
-    gallery_id: 8,
+    gallery_id: 4,
   },
   {
     name_en: 'Toma Control', name_es: 'Toma Control',
@@ -127,7 +98,7 @@ const projects = [
     status_en: '2024', status_es: '2024',
     stack: JSON.stringify(['TouchDesigner', 'MaxMSP', 'Pure Data']),
     category_en: 'Interactive', category_es: 'Interactivo',
-    gallery_id: 5,
+    gallery_id: 1,
   },
   // --- Audio ---
   {
@@ -137,7 +108,7 @@ const projects = [
     status_en: '2024', status_es: '2024',
     stack: JSON.stringify(['Ableton Live', 'Logic', 'Pro Tools', 'Foley']),
     category_en: 'Audio', category_es: 'Audio',
-    gallery_id: 7,
+    gallery_id: 3,
   },
   {
     name_en: 'Caribbean Cinemas Policy Trailer', name_es: 'Tráiler de Políticas Caribbean Cinemas',
@@ -146,7 +117,7 @@ const projects = [
     status_en: '2022', status_es: '2022',
     stack: JSON.stringify(['Sound Design', 'Pro Tools', 'Foley']),
     category_en: 'Audio', category_es: 'Audio',
-    gallery_id: 6,
+    gallery_id: 2,
   },
   {
     name_en: 'Alaver Commercial', name_es: 'Anuncio Alaver',
@@ -155,7 +126,7 @@ const projects = [
     status_en: '2024', status_es: '2024',
     stack: JSON.stringify(['Sound Design', 'Pro Tools', 'Foley']),
     category_en: 'Audio', category_es: 'Audio',
-    gallery_id: 9,
+    gallery_id: 5,
   },
   // --- Audio Software ---
   {
@@ -169,6 +140,16 @@ const projects = [
     link: 'https://github.com/victor10days/cumple',
   },
   // --- Full-Stack Development ---
+  {
+    name_en: 'Parcel Boundary Overlay', name_es: 'Superposición de Límites de Parcela',
+    desc_en: 'Parcel boundaries drawn onto the imagery that environmental site reports are built from: aerial photographs, USGS topographic quads and client scans. Regrid parcel polygons are placed by a ranked georeferencing chain (embedded GeoTIFF and LGIDict tags, OCR labels, EXIF, SIFT feature matching, hand-placed control points) that abstains when confidence is low rather than misplace a boundary, and ASTM E1527-21 adjoiner detection comes off the same polygons. Built at Ama Earth Group.',
+    desc_es: 'Límites de parcela dibujados sobre las imágenes con las que se arman los informes ambientales de sitio: fotografías aéreas, cuadrángulos topográficos del USGS y escaneos del cliente. Los polígonos de parcela de Regrid se colocan mediante una cadena jerarquizada de georreferenciación (etiquetas GeoTIFF y LGIDict embebidas, rótulos leídos por OCR, EXIF, emparejamiento de rasgos SIFT, puntos de control colocados a mano) que se abstiene cuando la confianza es baja en vez de ubicar mal un límite, y la detección de colindantes según ASTM E1527-21 sale de esos mismos polígonos. Construido en Ama Earth Group.',
+    status_en: '2026', status_es: '2026',
+    stack: JSON.stringify(['Python', 'FastAPI', 'Regrid API', 'GeoTIFF', 'SIFT + RANSAC', 'Tesseract OCR', 'PyMuPDF', 'Leaflet', 'PostGIS', 'Docker']),
+    category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
+    gallery_id: null,
+    link: null,
+  },
   {
     name_en: 'Bellonera', name_es: 'Bellonera',
     desc_en: 'Song auction for bars and the DJs who play them: guests scan a code, search any song and bid from $3, and the room watches the bid on the big screen while a three-minute clock extends 20 seconds on every late bid. Three surfaces (guest phone, big screen, DJ console), and the winner is charged only when the DJ marks the song played; payments are simulated in this build.',
@@ -196,7 +177,8 @@ const projects = [
     status_en: 'December 2025', status_es: 'Diciembre 2025',
     stack: JSON.stringify(['Python', 'Flask', 'HTML/CSS', 'JavaScript', 'SQL']),
     category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
-    gallery_id: 1,
+    gallery_id: null,
+    link: 'https://github.com/victor10days/holbertonschool-hbnb',
   },
   {
     name_en: 'AI Business Process Optimizer', name_es: 'Optimizador de Procesos con IA',
@@ -205,7 +187,8 @@ const projects = [
     status_en: '2025', status_es: '2025',
     stack: JSON.stringify(['Python', 'Odoo 16', 'Anthropic API', 'OpenAI API']),
     category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
-    gallery_id: 2,
+    gallery_id: null,
+    link: 'https://github.com/victor10days/apexive-hackaton-odoo',
   },
   {
     name_en: 'Simple Shell', name_es: 'Simple Shell',
@@ -214,7 +197,8 @@ const projects = [
     status_en: 'March 2025', status_es: 'Marzo 2025',
     stack: JSON.stringify(['C', 'UNIX', 'System Calls']),
     category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
-    gallery_id: 3,
+    gallery_id: null,
+    link: 'https://github.com/victor10days/holbertonschool-simple_shell',
   },
   {
     name_en: 'Printf', name_es: 'Printf',
@@ -223,7 +207,8 @@ const projects = [
     status_en: 'February 2025', status_es: 'Febrero 2025',
     stack: JSON.stringify(['C', 'Variadic Functions']),
     category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
-    gallery_id: 4,
+    gallery_id: null,
+    link: 'https://github.com/victor10days/holbertonschool-low_level_programming',
   },
 ];
 
@@ -233,8 +218,8 @@ const experience = [
     role_en: 'Jr. Software Engineer', role_es: 'Ingeniero de Software Jr.',
     company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
     date_en: 'May 2026 – July 2026', date_es: 'Mayo 2026 – Julio 2026',
-    desc_en: 'Built and shipped the AI features of an environmental-report platform used by consultants: LLM-driven report generation, Claude-based agents and SAM2 parcel detection, on FastAPI services in Docker over PostgreSQL/PostGIS behind GitHub Actions CI. Owned evaluation: ground-truth datasets and IoU/precision/recall harnesses scoring automated output against human analysts, about 80% agreement, measured before every release.',
-    desc_es: 'Construí y lancé las funcionalidades de IA de una plataforma de informes ambientales usada por consultores: generación de informes con LLMs, agentes basados en Claude y detección de parcelas con SAM2, sobre servicios FastAPI en Docker con PostgreSQL/PostGIS e integración continua en GitHub Actions. Me encargué de la evaluación: conjuntos de datos de referencia y pruebas de IoU/precisión/recall que comparaban la salida automatizada con la de analistas humanos, cerca de 80% de coincidencia, medidas antes de cada lanzamiento.',
+    desc_en: 'Built the parcel boundary overlay for environmental site reports: Regrid parcel polygons placed on aerial photographs, USGS topographic quads and client scans by a ranked georeferencing chain that abstains when confidence is low rather than misplace a boundary, plus ASTM E1527-21 adjoiner detection from the same polygons. Shipped the platform\'s other AI features: LLM-driven report generation, Claude-based agents and SAM2 segmentation, on FastAPI services in Docker over PostgreSQL/PostGIS behind GitHub Actions CI. Owned evaluation: ground-truth datasets and IoU/precision/recall harnesses scoring automated output against human analysts, about 80% agreement, measured before every release.',
+    desc_es: 'Construí la superposición de límites de parcela para informes ambientales de sitio: polígonos de parcela de Regrid colocados sobre fotografías aéreas, cuadrángulos topográficos del USGS y escaneos del cliente mediante una cadena jerarquizada de georreferenciación que se abstiene cuando la confianza es baja en vez de ubicar mal un límite, más la detección de colindantes según ASTM E1527-21 a partir de esos mismos polígonos. Lancé las demás funcionalidades de IA de la plataforma: generación de informes con LLMs, agentes basados en Claude y segmentación con SAM2, sobre servicios FastAPI en Docker con PostgreSQL/PostGIS e integración continua en GitHub Actions. Me encargué de la evaluación: conjuntos de datos de referencia y pruebas de IoU/precisión/recall que comparaban la salida automatizada con la de analistas humanos, cerca de 80% de coincidencia, medidas antes de cada lanzamiento.',
   },
   {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
