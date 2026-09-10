@@ -20,3 +20,6 @@ Thumbs.db
 
 # Editor
 *.code-workspace
+
+# Design-tool memory (stamps live in src/index.css)
+.hallmark/
