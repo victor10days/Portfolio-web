@@ -10,11 +10,6 @@ const getImageSrc = (item) => {
   return `/gallery/${item.image}`;
 };
 
-// A GitHub social card is a link preview, not a picture of the work: those pieces get a
-// typographic cover with the repository path instead of a cropped screenshot of a link.
-const isLinkCard = (item) => item.image.includes('opengraph.githubassets.com');
-const repoPath = (item) => item.image.split('/').slice(-2).join('/');
-
 const Gallery = () => {
   const { lang } = useLanguage();
   const { data: gallery, loading, error } = useApi('/api/gallery');
@@ -59,23 +54,14 @@ const Gallery = () => {
       <div className="gallery">
         {gallery.map((item, i) => (
           <button type="button" key={i} className="tile" onClick={() => setSelectedId(item.id)} aria-label={item.title[lang]}>
-            {isLinkCard(item) ? (
-              <span className="tile__cover">
-                <b>{item.title[lang]}</b>
-                <span>github.com/{repoPath(item)}</span>
-              </span>
-            ) : (
-              <img className="tile__img" src={getImageSrc(item)} alt="" loading="lazy" />
-            )}
+            <img className="tile__img" src={getImageSrc(item)} alt="" loading="lazy" />
             {item.video && <span className="tile__play" aria-hidden="true" />}
-            {!isLinkCard(item) && (
-              <span className="tile__cap">
-                <b>{item.title[lang]}</b>
-                <span>
-                  {item.category[lang]} · {item.year}
-                </span>
+            <span className="tile__cap">
+              <b>{item.title[lang]}</b>
+              <span>
+                {item.category[lang]} · {item.year}
               </span>
-            )}
+            </span>
           </button>
         ))}
       </div>
