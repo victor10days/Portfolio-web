@@ -2,7 +2,7 @@
  * nav: N5 floating pill (content-sized, top-centred, blur backdrop; corner chip + sheet under 40 rem) · footer: Ft5 statement + C2 inline form
  * H1 knobs: size=display 9vw, alignment=left-bias, underlay=single thick rule below · sections: content-height, no snap
  * contrast: pass (40-41) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49, 50-57) · icons: pass (30)
- * pre-emit critique: P4 H4 E4 S5 R4 V5 · the p5 Saturn sketch stays as the canvas · 2026-09-06 */
+ * pre-emit critique: P4 H4 E4 S5 R4 V5 · the p5 Saturn sketch stays as the canvas, cleared to paper (so the contrast stamps hold against --color-paper) and receding to --sketch-floor past the fold · 2026-09-06, recession 2026-09-10 */
 @import "../tokens.css";
 
 * {
@@ -90,6 +90,16 @@ p {
 .page {
   position: relative;
   z-index: var(--z-base);
+}
+
+/* The sketch is full under the name and recedes, with the scroll, to a floor.
+   useScrollRecession writes --sketch-t (0 at the top, 1 after --sketch-span
+   viewports) on <html>. No transition: the value moves with the scroll, so the
+   frozen frame under motion OFF dims the same way. One compositor opacity caps
+   the whole layer, which per-particle alpha could not: overlapping dots add up. */
+.sketch {
+  opacity: calc(1 - var(--sketch-t, 0) * (1 - var(--sketch-floor)));
+  will-change: opacity;
 }
 
 .wrap {

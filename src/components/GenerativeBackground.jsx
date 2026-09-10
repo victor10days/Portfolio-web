@@ -1,7 +1,7 @@
 import { useRef, useEffect, memo } from 'react';
 import p5 from 'p5';
 
-const GenerativeBackground = memo(({ sketch, style }) => {
+const GenerativeBackground = memo(({ sketch, className, style }) => {
   const containerRef = useRef(null);
   const p5Ref = useRef(null);
 
@@ -32,6 +32,7 @@ const GenerativeBackground = memo(({ sketch, style }) => {
   return (
     <div
       ref={containerRef}
+      className={className}
       aria-hidden="true"
       style={{
         position: 'absolute',

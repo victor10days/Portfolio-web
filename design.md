@@ -58,6 +58,10 @@ scroll snap.
 
 - `--ease-out` cubic-bezier(0.16, 1, 0.3, 1), `--ease-in` cubic-bezier(0.7, 0, 0.84, 0).
 - Reveal pattern: none. The sketch moves; the page does not.
+- The sketch belongs to the fold. It is full under the name and recedes, with
+  the scroll, to `--sketch-floor` over the first `--sketch-span` viewports;
+  below the rule it is a texture under the document, not a competitor to the
+  copy. The canvas is cleared, not painted: the ground is `--color-paper`.
 - Hover: one signal per element (a colour shift, or a 1 px lift on the button).
 - Reduced motion: transitions collapse to 1 ms.
 

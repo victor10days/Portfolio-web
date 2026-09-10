@@ -1,4 +1,5 @@
 import { useLanguage } from '../hooks/useLanguage';
+import { useScrollRecession } from '../hooks/useScrollRecession';
 import { t } from '../content/translations';
 import Header from '../components/Header';
 import SketchControls from '../components/AudioToggle';
@@ -15,10 +16,11 @@ import Footer from '../sections/Footer';
 
 const Home = () => {
   const { lang } = useLanguage();
+  useScrollRecession();
 
   return (
     <>
-      <GenerativeBackground sketch={saturnSketch} style={{ position: 'fixed', zIndex: 'var(--z-canvas)' }} />
+      <GenerativeBackground sketch={saturnSketch} className="sketch" style={{ position: 'fixed', zIndex: 'var(--z-canvas)' }} />
       <a href="#about" className="skip">
         {t('a11y.skip', lang)}
       </a>
