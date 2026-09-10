@@ -91,6 +91,18 @@ describe('experience', () => {
     expect(ama.date_en).not.toMatch(/present/i);
     expect(ama.date_es).not.toMatch(/presente/i);
   });
+
+  it('leads the Ama entry with the parcel boundary overlay', () => {
+    // The resume leads with it, and the standalone project row carries the
+    // detail. Both must survive an edit to either file, or the site quietly
+    // reverts to describing the flagship work as "the AI features".
+    const ama = experience.find((e) => e.company_en === 'Ama Earth Group');
+    expect(ama.desc_en).toMatch(/^Built the parcel boundary overlay/);
+    expect(ama.desc_en).toMatch(/SAM2/);
+    expect(ama.desc_es).toMatch(/^Construí la superposición de límites de parcela/);
+    expect(ama.desc_es).toMatch(/SAM2/);
+    expect(projects.some((p) => p.name_en === 'Parcel Boundary Overlay')).toBe(true);
+  });
 });
 
 describe('gallery', () => {

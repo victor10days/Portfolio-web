@@ -141,6 +141,16 @@ const projects = [
   },
   // --- Full-Stack Development ---
   {
+    name_en: 'Parcel Boundary Overlay', name_es: 'Superposición de Límites de Parcela',
+    desc_en: 'Parcel boundaries drawn onto the imagery that environmental site reports are built from: aerial photographs, USGS topographic quads and client scans. Regrid parcel polygons are placed by a ranked georeferencing chain (embedded GeoTIFF and LGIDict tags, OCR labels, EXIF, SIFT feature matching, hand-placed control points) that abstains when confidence is low rather than misplace a boundary, and ASTM E1527-21 adjoiner detection comes off the same polygons. Built at Ama Earth Group.',
+    desc_es: 'Límites de parcela dibujados sobre las imágenes con las que se arman los informes ambientales de sitio: fotografías aéreas, cuadrángulos topográficos del USGS y escaneos del cliente. Los polígonos de parcela de Regrid se colocan mediante una cadena jerarquizada de georreferenciación (etiquetas GeoTIFF y LGIDict embebidas, rótulos leídos por OCR, EXIF, emparejamiento de rasgos SIFT, puntos de control colocados a mano) que se abstiene cuando la confianza es baja en vez de ubicar mal un límite, y la detección de colindantes según ASTM E1527-21 sale de esos mismos polígonos. Construido en Ama Earth Group.',
+    status_en: '2026', status_es: '2026',
+    stack: JSON.stringify(['Python', 'FastAPI', 'Regrid API', 'GeoTIFF', 'SIFT + RANSAC', 'Tesseract OCR', 'PyMuPDF', 'Leaflet', 'PostGIS', 'Docker']),
+    category_en: 'Full-Stack Development', category_es: 'Desarrollo Full-Stack',
+    gallery_id: null,
+    link: null,
+  },
+  {
     name_en: 'Bellonera', name_es: 'Bellonera',
     desc_en: 'Song auction for bars and the DJs who play them: guests scan a code, search any song and bid from $3, and the room watches the bid on the big screen while a three-minute clock extends 20 seconds on every late bid. Three surfaces (guest phone, big screen, DJ console), and the winner is charged only when the DJ marks the song played; payments are simulated in this build.',
     desc_es: 'Subasta de canciones para bares y para los DJ que ponen la m\u00fasica: el p\u00fablico escanea un c\u00f3digo, busca cualquier canci\u00f3n y puja desde $3, y la sala ve la puja en la pantalla grande mientras un reloj de tres minutos se extiende 20 segundos con cada puja de \u00faltimo minuto. Tres pantallas (el celular del p\u00fablico, la pantalla grande y la consola del DJ), y al ganador se le cobra solo cuando el DJ marca la canci\u00f3n como tocada; los pagos est\u00e1n simulados en esta versi\u00f3n.',
@@ -208,8 +218,8 @@ const experience = [
     role_en: 'Jr. Software Engineer', role_es: 'Ingeniero de Software Jr.',
     company_en: 'Ama Earth Group', company_es: 'Ama Earth Group',
     date_en: 'May 2026 – July 2026', date_es: 'Mayo 2026 – Julio 2026',
-    desc_en: 'Built and shipped the AI features of an environmental-report platform used by consultants: LLM-driven report generation, Claude-based agents and SAM2 parcel detection, on FastAPI services in Docker over PostgreSQL/PostGIS behind GitHub Actions CI. Owned evaluation: ground-truth datasets and IoU/precision/recall harnesses scoring automated output against human analysts, about 80% agreement, measured before every release.',
-    desc_es: 'Construí y lancé las funcionalidades de IA de una plataforma de informes ambientales usada por consultores: generación de informes con LLMs, agentes basados en Claude y detección de parcelas con SAM2, sobre servicios FastAPI en Docker con PostgreSQL/PostGIS e integración continua en GitHub Actions. Me encargué de la evaluación: conjuntos de datos de referencia y pruebas de IoU/precisión/recall que comparaban la salida automatizada con la de analistas humanos, cerca de 80% de coincidencia, medidas antes de cada lanzamiento.',
+    desc_en: 'Built the parcel boundary overlay for environmental site reports: Regrid parcel polygons placed on aerial photographs, USGS topographic quads and client scans by a ranked georeferencing chain that abstains when confidence is low rather than misplace a boundary, plus ASTM E1527-21 adjoiner detection from the same polygons. Shipped the platform\'s other AI features: LLM-driven report generation, Claude-based agents and SAM2 segmentation, on FastAPI services in Docker over PostgreSQL/PostGIS behind GitHub Actions CI. Owned evaluation: ground-truth datasets and IoU/precision/recall harnesses scoring automated output against human analysts, about 80% agreement, measured before every release.',
+    desc_es: 'Construí la superposición de límites de parcela para informes ambientales de sitio: polígonos de parcela de Regrid colocados sobre fotografías aéreas, cuadrángulos topográficos del USGS y escaneos del cliente mediante una cadena jerarquizada de georreferenciación que se abstiene cuando la confianza es baja en vez de ubicar mal un límite, más la detección de colindantes según ASTM E1527-21 a partir de esos mismos polígonos. Lancé las demás funcionalidades de IA de la plataforma: generación de informes con LLMs, agentes basados en Claude y segmentación con SAM2, sobre servicios FastAPI en Docker con PostgreSQL/PostGIS e integración continua en GitHub Actions. Me encargué de la evaluación: conjuntos de datos de referencia y pruebas de IoU/precisión/recall que comparaban la salida automatizada con la de analistas humanos, cerca de 80% de coincidencia, medidas antes de cada lanzamiento.',
   },
   {
     role_en: 'Studio Engineer', role_es: 'Ingeniero de Estudio',
