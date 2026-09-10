@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { gallery, projects, experience } from '../data.js';
@@ -87,6 +87,30 @@ describe('gallery', () => {
       bilingual(g, 'category');
       expect(g.image, `"${g.title_en}" image`).toBeTruthy();
       expect(g.year, `"${g.title_en}" year`).toBeTruthy();
+    }
+  });
+});
+
+describe('gallery assets', () => {
+  it('every local image actually exists on disk', () => {
+    for (const g of gallery) {
+      if (g.image.startsWith('http')) continue;
+      // Gallery.jsx: an absolute path is served as-is, a bare name comes from
+      // public/gallery.
+      const rel = g.image.startsWith('/')
+        ? join('server', g.image.replace(/^\//, ''))
+        : join('public', 'gallery', g.image);
+      const onDisk = g.image.startsWith('/uploads/')
+        ? join(root, 'server', g.image.replace(/^\//, ''))
+        : join(root, rel);
+      expect(existsSync(onDisk), `${g.title_en} -> ${g.image} (${onDisk})`).toBe(true);
+    }
+  });
+
+  it('every local video actually exists on disk', () => {
+    for (const g of gallery) {
+      if (!g.video || /^https?:/.test(g.video)) continue;
+      expect(existsSync(join(root, 'public', g.video.replace(/^\//, ''))), `${g.title_en} -> ${g.video}`).toBe(true);
     }
   });
 });

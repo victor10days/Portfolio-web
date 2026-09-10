@@ -36,7 +36,7 @@ const gallery = [
     desc_es: 'Una implementación personalizada de la función printf de la biblioteca estándar de C. Explora funciones variádicas, punteros a funciones y programación modular en C.',
   },
   {
-    image: 'toma-control-flyer.png',
+    image: 'toma-control-flyer.webp',
     video: '/videos/toma-control-recap.mp4',
     title_en: 'Toma Control', title_es: 'Toma Control',
     category_en: 'Interactive Event', category_es: 'Evento Interactivo',
@@ -80,7 +80,7 @@ const gallery = [
     desc_es: 'Diseño de sonido e implementación de audio para el anuncio publicitario de Alaver 2024, creado en colaboración con Adelobo Estudios.',
   },
   {
-    image: 'cyanea.png',
+    image: 'cyanea.webp',
     video: 'https://vimeo.com/1186513976',
     title_en: 'Aguavida', title_es: 'Aguavida',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
@@ -89,7 +89,7 @@ const gallery = [
     desc_es: 'Ecuación procesada: x(t) = cos(t), y(t) = sin(t). Cuidemos nuestras aguas y las vidas que les pertenece.',
   },
   {
-    image: 'cara-hueca-34hz.png',
+    image: 'cara-hueca-34hz.webp',
     video: 'https://vimeo.com/1144271175',
     title_en: 'Cara Hueca 34hz', title_es: 'Cara Hueca 34hz',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
@@ -98,7 +98,7 @@ const gallery = [
     desc_es: 'Vector de cara en rotación. Estabilizado a 35.1424hz.',
   },
   {
-    image: 'orca.png',
+    image: 'orca.webp',
     video: 'https://vimeo.com/1144271321',
     title_en: 'Tela de Pesca', title_es: 'Tela de Pesca',
     category_en: 'Sound Art', category_es: 'Arte Sonoro',
