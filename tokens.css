@@ -74,4 +74,11 @@
   --z-sticky-nav: 300;
   --z-modal: 400;
   --banner-height: 3.5rem;
+
+  /* The sketch: full under the name, receding past the fold to a floor. At 0.25 its
+     brightest dot lands on #4b443d over paper: 3.3:1 under --color-muted, 5.5:1 under
+     --color-ink-2. The span is the hero's 72vh plus the rule. useScrollRecession reads
+     the span; index.css turns the floor into .sketch's opacity. */
+  --sketch-floor: 0.25;
+  --sketch-span: 0.8;
 }
