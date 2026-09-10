@@ -463,6 +463,31 @@ button.work__row {
   overflow-wrap: anywhere;
 }
 
+.work__link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-top: var(--space-2xs);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  transition: color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+/* Shown when the row is already a button, so it is text, not a control. */
+.work__link--static {
+  border-bottom-color: transparent;
+}
+
+@media (hover: hover) {
+  .work__link:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+}
+
 .work__open {
   font-size: var(--text-xs);
   color: var(--color-accent);
@@ -689,7 +714,11 @@ button.work__row {
   padding: 0 var(--space-sm);
   background: var(--color-paper-2);
   color: var(--color-ink);
-  border: var(--rule-hair) solid var(--color-rule);
+  /* --color-rule is the divider language, but at 1.44:1 against the page it
+     cannot be the only thing marking a form field. The fill is 1.06:1, so the
+     border is all a low-vision user has. --color-muted is 6.81:1 and stays a
+     hairline, so the field reads as a field without shouting. (WCAG 1.4.11) */
+  border: var(--rule-hair) solid var(--color-muted);
   border-radius: var(--radius-input);
   font: inherit;
   font-size: var(--text-base);
@@ -713,7 +742,7 @@ textarea.input {
 
 .input:focus-visible {
   outline-color: var(--color-focus);
-  border-color: var(--color-rule);
+  border-color: var(--color-muted);
 }
 
 .input::placeholder {
@@ -776,6 +805,191 @@ textarea.input {
   border-top: var(--rule-hair) solid var(--color-rule);
   font-size: var(--text-sm);
   color: var(--color-muted);
+}
+
+/* --- ambient sound toggle: the sketch's one control, on the page's tokens --- */
+
+.controls {
+  position: fixed;
+  right: var(--space-md);
+  bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
+  z-index: var(--z-sticky);
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.controls__btn {
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  background: color-mix(in oklch, var(--color-paper) 85%, transparent);
+  border: var(--rule-hair) solid var(--color-rule);
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+.controls__btn[aria-pressed='true'] {
+  color: var(--color-ink);
+}
+
+@media (hover: hover) {
+  .controls__btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+
+/* --- lightbox: the gallery's modal, on the same tokens as the page --- */
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--space-xl);
+  background: oklch(0% 0 0 / 0.92);
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  .lb {
+    padding: var(--space-md);
+  }
+}
+
+.lb__panel {
+  width: 100%;
+  max-width: 56rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.lb__close {
+  align-self: flex-end;
+  background: none;
+  border: 0;
+  padding: var(--space-2xs) var(--space-xs);
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.lb__media {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin-bottom: var(--space-md);
+}
+
+.lb__media--portrait {
+  max-width: 25rem;
+  margin-inline: auto;
+  padding-bottom: 75%;
+}
+
+.lb__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.lb__img,
+.lb__video {
+  width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  margin-bottom: var(--space-md);
+}
+
+.lb__video {
+  background: oklch(0% 0 0);
+}
+
+.lb__caption {
+  text-align: center;
+}
+
+.lb__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-3xs);
+}
+
+.lb__cat {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.lb__desc {
+  max-width: 62ch;
+  margin: 0 auto;
+  color: var(--color-ink-2);
+}
+
+.lb__nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.lb__step {
+  background: none;
+  border: 0;
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .lb__close:hover,
+  .lb__step:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* Quiet stand-in when a list cannot load. No toast, no icon: the sketch
+   moves, the page does not. */
+.note {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  padding-top: var(--space-sm);
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .foot {
+    /* Room for the fixed control cluster, which otherwise covers the contact
+       links on the last row. */
+    padding-bottom: calc(var(--space-xl) + 3rem);
+  }
+}
+
+.foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
 }
 
 /* --- motion: nothing moves but state changes; reduced motion collapses even those --- */

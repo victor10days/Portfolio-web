@@ -1,4 +1,7 @@
+import { useLanguage } from '../hooks/useLanguage';
+import { t } from '../content/translations';
 import Header from '../components/Header';
+import SketchControls from '../components/AudioToggle';
 import GenerativeBackground from '../components/GenerativeBackground';
 import saturnSketch from '../sketches/saturnSketch';
 import Hero from '../sections/Hero';
@@ -11,13 +14,16 @@ import Education from '../sections/Education';
 import Footer from '../sections/Footer';
 
 const Home = () => {
+  const { lang } = useLanguage();
+
   return (
     <>
       <GenerativeBackground sketch={saturnSketch} style={{ position: 'fixed', zIndex: 'var(--z-canvas)' }} />
       <a href="#about" className="skip">
-        Skip to content
+        {t('a11y.skip', lang)}
       </a>
       <Header />
+      <SketchControls />
       <main className="page">
         <Hero />
         <About />

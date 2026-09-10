@@ -22,7 +22,6 @@ const saturnSketch = (p) => {
   let lastGrainTime = 0;
   let chaosIntensity = 0;
   let audioEnabled = false;
-  let audioBtn = null;
 
   // Lower, warmer pentatonic — soothing register
   const SCALE = [130.81, 146.83, 164.81, 196.00, 220.00, 261.63, 293.66];
@@ -105,43 +104,84 @@ const saturnSketch = (p) => {
     osc1.onended = () => { grainCount--; };
   }
 
+  // Registered at sketch scope, not inside setup(). p5 runs setup asynchronously
+  // (it waits for window load when the document is still parsing), so anything
+  // installed in there is missing during the window where the page is already
+  // painted and the buttons are already clickable.
+  let motionOn = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let disposed = false;
+
+  const onMouseMove = (e) => { globalMouseX = e.clientX; globalMouseY = e.clientY; };
+  const onTouchMove = (e) => { globalMouseX = e.touches[0].clientX; globalMouseY = e.touches[0].clientY; };
+
+  function announceMotion() {
+    window.dispatchEvent(new CustomEvent('saturn-motion-state', { detail: { on: motionOn } }));
+  }
+
+  function toggleMotion() {
+    motionOn = !motionOn;
+    if (motionOn) p.loop();
+    else p.noLoop();
+    announceMotion();
+  }
+
   function toggleAudio() {
     if (!audioCtx) initAudio();
     if (audioCtx.state === 'suspended') audioCtx.resume();
     audioEnabled = !audioEnabled;
     if (masterGain) masterGain.gain.linearRampToValueAtTime(audioEnabled ? 0.25 : 0.0001, audioCtx.currentTime + 0.1);
-    if (audioBtn) {
-      audioBtn.innerHTML = audioEnabled ? '&#9835; ON' : '&#9835; OFF';
-      audioBtn.style.color = audioEnabled ? '#E0E0E0' : '#999';
-    }
+    // The button lives in React so it can be styled and translated with the
+    // rest of the page; the sketch only reports what the audio is doing.
+    window.dispatchEvent(new CustomEvent('saturn-audio-state', { detail: { on: audioEnabled } }));
   }
 
+  window.addEventListener('saturn-audio-toggle', toggleAudio);
+  window.addEventListener('saturn-motion-toggle', toggleMotion);
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove, { passive: true });
+
+  // p5 exposes no teardown hook, and wrapping remove() inside setup() is too
+  // late: on a remount after page load the constructor starts immediately, so
+  // cleanup can reach the prototype method while setup() is still pending and
+  // leave an orphan instance drawing forever. Wrapping here means the own
+  // property exists before the constructor returns.
+  const originalRemove = p.remove.bind(p);
+  p.remove = () => {
+    disposed = true;
+    window.removeEventListener('saturn-audio-toggle', toggleAudio);
+    window.removeEventListener('saturn-motion-toggle', toggleMotion);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('touchmove', onTouchMove);
+    // Browsers cap concurrent AudioContexts per document; leaking one per
+    // remount eventually makes the audio button stop responding.
+    if (audioCtx) {
+      audioCtx.close().catch(() => {});
+      audioCtx = null;
+      masterGain = null;
+    }
+    return originalRemove();
+  };
+
   p.setup = () => {
+    // p5 runs setup asynchronously, so an instance can be removed before it
+    // ever gets here. Without this it would build a canvas nobody holds and
+    // leave it drawing forever.
+    if (disposed) return;
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.noFill();
     p.strokeCap(p.ROUND);
     p.frameRate(30);
 
-    // Audio toggle button — appended to body so it sits above all layers
-    audioBtn = document.createElement('button');
-    audioBtn.innerHTML = '&#9835; OFF';
-    Object.assign(audioBtn.style, {
-      position: 'fixed', bottom: '20px', right: '20px', zIndex: '999',
-      padding: '8px 14px', fontFamily: 'Georgia, serif', fontSize: '13px',
-      color: '#999', background: 'rgba(26, 26, 26, 0.85)', border: '1px solid #242424',
-      cursor: 'pointer', transition: 'color 0.2s, border-color 0.2s', userSelect: 'none',
-    });
-    audioBtn.addEventListener('click', toggleAudio);
-    audioBtn.addEventListener('mouseenter', () => { audioBtn.style.color = '#E8553A'; audioBtn.style.borderColor = '#E8553A'; });
-    audioBtn.addEventListener('mouseleave', () => { audioBtn.style.color = audioEnabled ? '#E0E0E0' : '#999'; audioBtn.style.borderColor = '#242424'; });
-    document.body.appendChild(audioBtn);
-
-    // Track mouse globally since canvas is behind content layers
-    document.addEventListener('mousemove', (e) => { globalMouseX = e.clientX; globalMouseY = e.clientY; });
-    document.addEventListener('touchmove', (e) => { globalMouseX = e.touches[0].clientX; globalMouseY = e.touches[0].clientY; }, { passive: true });
+    // Someone who asked the OS for less motion gets a still frame by default;
+    // the toggle can still turn it on.
+    if (!motionOn) p.noLoop();
+    announceMotion();
   };
 
   p.draw = () => {
+    // Belt and braces: GenerativeBackground's IntersectionObserver can call
+    // loop() independently, so paused really means paused.
+    if (disposed || !motionOn) return;
     p.background(28, 28, 28);
     counter += 0.003;
 

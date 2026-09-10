@@ -6,9 +6,21 @@ import { useApi } from '../hooks/useApi';
 // A sequence: the dates in the margin, hairlines between entries, nothing italic, no rail.
 const Experience = () => {
   const { lang } = useLanguage();
-  const { data, loading } = useApi('/api/experience');
+  const { data, loading, error } = useApi('/api/experience');
 
-  if (loading || !data) return null;
+  // Rendered in every state so #experience exists for the nav even before the
+  // API answers.
+  if (loading) {
+    return <Section id="experience" title={t('experience.title', lang)} />;
+  }
+
+  if (error || !data) {
+    return (
+      <Section id="experience" title={t('experience.title', lang)}>
+        <p className="note">{t('errors.list', lang)}</p>
+      </Section>
+    );
+  }
 
   return (
     <Section id="experience" title={t('experience.title', lang)}>

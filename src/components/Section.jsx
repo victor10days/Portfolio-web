@@ -2,7 +2,7 @@
 const Section = ({ id, title, className = '', children }) => {
   const titleId = `${id}-title`;
   return (
-    <section id={id} className={`section wrap ${className}`.trim()} aria-labelledby={title ? titleId : undefined}>
+    <section id={id} className={`section wrap ${className}`.trim()} aria-labelledby={title ? titleId : undefined} tabIndex={-1}>
       {title && (
         <h2 id={titleId} className="section__title">
           {title}

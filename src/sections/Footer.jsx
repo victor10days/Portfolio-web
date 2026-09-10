@@ -78,9 +78,15 @@ const Footer = () => {
 
       <div className="foot__meta">
         <span>{t('footer.copyright', lang)}</span>
-        <a href="https://github.com/victor10days" target="_blank" rel="noopener noreferrer">
-          github.com/victor10days
-        </a>
+        <span className="foot__links">
+          <a href="https://github.com/victor10days" target="_blank" rel="noopener noreferrer">
+            github.com/victor10days
+          </a>
+          <a href="https://www.linkedin.com/in/victor10days" target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/victor10days
+          </a>
+          <a href="mailto:victor10days@gmail.com">victor10days@gmail.com</a>
+        </span>
       </div>
     </footer>
   );

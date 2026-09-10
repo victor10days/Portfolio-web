@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '../hooks/useLanguage';
-import { useMobile } from '../hooks/useMobile';
-import { COLORS, FONT } from '../styles/theme';
-import { hoverColor } from '../hooks/useHover';
+import { t } from '../content/translations';
 
-const getImageSrc = (item) =>
-  item.image.startsWith('http') ? item.image : `/gallery/${item.image}`;
+// Must stay in step with Gallery's copy: an admin upload comes back as an
+// absolute /uploads/... path, and prefixing /gallery/ onto it 404s.
+const getImageSrc = (item) => {
+  if (item.image.startsWith('http')) return item.image;
+  if (item.image.startsWith('/')) return item.image;
+  return `/gallery/${item.image}`;
+};
 
 const isYouTube = (url) =>
   url && (url.includes('youtube.com') || url.includes('youtu.be'));
@@ -32,14 +36,30 @@ const getVimeoId = (url) => {
 
 const Lightbox = ({ item, onClose, onPrev, onNext }) => {
   const { lang } = useLanguage();
-  const { isMobile } = useMobile();
   const closeRef = useRef(null);
+  // Captured during render of the first commit, before focus moves to the
+  // close button, so it still holds the tile that opened the dialog.
+  const openerRef = useRef(typeof document !== 'undefined' ? document.activeElement : null);
 
   useEffect(() => {
+    const opener = openerRef.current;
     closeRef.current?.focus();
 
+    // aria-modal only claims the rest of the page is inert. inert makes it
+    // true: without it Tab walks out of the dialog into the nav and the form,
+    // which the screen reader has been told are hidden, and whose focus ring
+    // is painted underneath the scrim.
+    const root = document.getElementById('root');
+    root?.setAttribute('inert', '');
+
     const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      // A focused <video> uses the arrows to seek. Without this, seeking also
+      // advances the gallery and destroys the element mid-playback.
+      if (e.target?.closest?.('video, audio, input, textarea, select')) return;
       if (e.key === 'ArrowRight') onNext();
       if (e.key === 'ArrowLeft') onPrev();
     };
@@ -48,210 +68,93 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
     return () => {
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
+      root?.removeAttribute('inert');
+      // Put the user back where they were instead of dropping them at the top
+      // of the document.
+      opener?.focus?.();
     };
   }, [onClose, onNext, onPrev]);
 
-  return (
+  const media = item.video ? (
+    isYouTube(item.video) ? (
+      <div className="lb__media">
+        <iframe
+          className="lb__frame"
+          src={`https://www.youtube.com/embed/${getYouTubeId(item.video)}?autoplay=1`}
+          title={item.title[lang]}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    ) : isVimeo(item.video) ? (
+      <div className="lb__media">
+        <iframe
+          className="lb__frame"
+          src={`https://player.vimeo.com/video/${getVimeoId(item.video)}?autoplay=1`}
+          title={item.title[lang]}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    ) : isInstagram(item.video) ? (
+      <div className="lb__media lb__media--portrait">
+        <iframe
+          className="lb__frame"
+          src={getInstagramEmbedUrl(item.video)}
+          title={item.title[lang]}
+          allowFullScreen
+        />
+      </div>
+    ) : (
+      <video className="lb__video" src={item.video} controls autoPlay />
+    )
+  ) : (
+    <img className="lb__img" src={getImageSrc(item)} alt={item.title[lang]} />
+  );
+
+  // Rendered into <body>: main.page is position:relative with a z-index, which
+  // creates a stacking context the modal would otherwise be trapped inside,
+  // painting underneath anything fixed outside it however high its z-index.
+  return createPortal(
     <div
+      className="lb"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={item.title[lang]}
-      style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0, bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.92)',
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: isMobile ? '16px' : '40px',
-        cursor: 'pointer',
-      }}
     >
-      <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          maxWidth: '900px',
-          width: '100%',
-          maxHeight: '90vh',
-          display: 'flex',
-          flexDirection: 'column',
-          cursor: 'default',
-        }}
-      >
+      <div className="lb__panel" onClick={(e) => e.stopPropagation()}>
         <button
+          type="button"
           ref={closeRef}
+          className="lb__close"
           onClick={onClose}
-          aria-label="Close"
-          style={{
-            alignSelf: 'flex-end',
-            fontSize: '24px',
-            color: COLORS.white,
-            marginBottom: '8px',
-            fontFamily: FONT,
-          }}
+          aria-label={t('lightbox.close', lang)}
         >
-          {'\u2715'}
+          {'✕'}
         </button>
 
-        {item.video ? (
-          isYouTube(item.video) ? (
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              paddingBottom: '56.25%',
-              marginBottom: '16px',
-            }}>
-              <iframe
-                src={`https://www.youtube.com/embed/${getYouTubeId(item.video)}?autoplay=1`}
-                title={item.title[lang]}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{
-                  position: 'absolute',
-                  top: 0, left: 0,
-                  width: '100%', height: '100%',
-                  border: 'none',
-                }}
-              />
-            </div>
-          ) : isVimeo(item.video) ? (
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              paddingBottom: '56.25%',
-              marginBottom: '16px',
-            }}>
-              <iframe
-                src={`https://player.vimeo.com/video/${getVimeoId(item.video)}?autoplay=1`}
-                title={item.title[lang]}
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-                style={{
-                  position: 'absolute',
-                  top: 0, left: 0,
-                  width: '100%', height: '100%',
-                  border: 'none',
-                }}
-              />
-            </div>
-          ) : isInstagram(item.video) ? (
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '400px',
-              margin: '0 auto',
-              paddingBottom: '75%',
-              marginBottom: '16px',
-            }}>
-              <iframe
-                src={getInstagramEmbedUrl(item.video)}
-                title={item.title[lang]}
-                allowFullScreen
-                style={{
-                  position: 'absolute',
-                  top: 0, left: 0,
-                  width: '100%', height: '100%',
-                  border: 'none',
-                }}
-              />
-            </div>
-          ) : (
-            <video
-              src={item.video}
-              controls
-              autoPlay
-              style={{
-                width: '100%',
-                maxHeight: '65vh',
-                objectFit: 'contain',
-                marginBottom: '16px',
-                backgroundColor: '#000',
-              }}
-            />
-          )
-        ) : (
-          <img
-            src={getImageSrc(item)}
-            alt={item.title[lang]}
-            style={{
-              width: '100%',
-              maxHeight: '65vh',
-              objectFit: 'contain',
-              marginBottom: '16px',
-            }}
-          />
-        )}
+        {media}
 
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{
-            fontSize: isMobile ? '18px' : '22px',
-            color: COLORS.white,
-            fontFamily: FONT,
-            margin: '0 0 4px 0',
-          }}>
-            {item.title[lang]}
-          </h3>
-          <div style={{
-            fontSize: '13px',
-            color: COLORS.red,
-            fontFamily: FONT,
-            marginBottom: '8px',
-          }}>
-            {item.category[lang]} — {item.year}
+        <div className="lb__caption">
+          <h3 className="lb__title">{item.title[lang]}</h3>
+          <div className="lb__cat">
+            {item.category[lang]} · {item.year}
           </div>
-          {item.desc && (
-            <p style={{
-              fontSize: isMobile ? '13px' : '15px',
-              color: COLORS.text,
-              fontFamily: FONT,
-              lineHeight: '1.6',
-              maxWidth: '600px',
-              margin: '0 auto',
-            }}>
-              {item.desc[lang]}
-            </p>
-          )}
+          {item.desc && <p className="lb__desc">{item.desc[lang]}</p>}
         </div>
 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '24px',
-          marginTop: '16px',
-        }}>
-          <button
-            onClick={onPrev}
-            aria-label="Previous"
-            style={{
-              fontSize: '20px',
-              color: COLORS.textLight,
-              fontFamily: FONT,
-              padding: '8px 16px',
-              transition: 'color 0.2s',
-            }}
-            {...hoverColor(COLORS.red, COLORS.textLight)}
-          >
-            {'\u2190'} Prev
+        <div className="lb__nav">
+          <button type="button" className="lb__step" onClick={onPrev} aria-label={t('lightbox.prev', lang)}>
+            {'←'} {t('lightbox.prev', lang)}
           </button>
-          <button
-            onClick={onNext}
-            aria-label="Next"
-            style={{
-              fontSize: '20px',
-              color: COLORS.textLight,
-              fontFamily: FONT,
-              padding: '8px 16px',
-              transition: 'color 0.2s',
-            }}
-            {...hoverColor(COLORS.red, COLORS.textLight)}
-          >
-            Next {'\u2192'}
+          <button type="button" className="lb__step" onClick={onNext} aria-label={t('lightbox.next', lang)}>
+            {t('lightbox.next', lang)} {'→'}
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

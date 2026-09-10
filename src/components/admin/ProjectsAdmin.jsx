@@ -23,7 +23,7 @@ const btnStyle = {
 
 const emptyItem = {
   name_en: '', name_es: '', desc_en: '', desc_es: '', status_en: '', status_es: '', stack: '',
-  category_en: '', category_es: '', gallery_id: '',
+  category_en: '', category_es: '', gallery_id: '', link: '',
 };
 
 const ProjectsAdmin = ({ token }) => {
@@ -45,6 +45,7 @@ const ProjectsAdmin = ({ token }) => {
       stack: item.stack.join(', '),
       category_en: item.category?.en || '', category_es: item.category?.es || '',
       gallery_id: item.gallery_id ?? '',
+      link: item.link ?? '',
     });
   };
 
@@ -55,6 +56,7 @@ const ProjectsAdmin = ({ token }) => {
       ...form,
       stack: form.stack.split(',').map(s => s.trim()).filter(Boolean),
       gallery_id: form.gallery_id !== '' ? Number(form.gallery_id) : null,
+      link: form.link?.trim() ? form.link.trim() : null,
     };
     const method = editing === 'new' ? 'POST' : 'PUT';
     const url = editing === 'new' ? '/api/projects' : `/api/projects/${editing}`;
@@ -84,7 +86,7 @@ const ProjectsAdmin = ({ token }) => {
           status_en: item.status.en, status_es: item.status.es,
           stack: item.stack,
           category_en: item.category?.en || '', category_es: item.category?.es || '',
-          gallery_id: item.gallery_id ?? null, sort_order: i,
+          gallery_id: item.gallery_id ?? null, link: item.link ?? null, sort_order: i,
         }),
       })
     ));
@@ -115,6 +117,7 @@ const ProjectsAdmin = ({ token }) => {
             <input placeholder="Category (EN)" value={form.category_en} onChange={set('category_en')} style={inputStyle} />
             <input placeholder="Category (ES)" value={form.category_es} onChange={set('category_es')} style={inputStyle} />
             <input placeholder="Gallery ID (number)" value={form.gallery_id} onChange={set('gallery_id')} style={inputStyle} type="number" />
+            <input placeholder="Link (https://...)" value={form.link} onChange={set('link')} style={inputStyle} type="url" />
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={save} style={{ ...btnStyle, backgroundColor: COLORS.red }}>Save</button>

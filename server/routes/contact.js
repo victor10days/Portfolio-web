@@ -15,8 +15,17 @@ const COOLDOWN_MS = 60_000;
 router.post('/', async (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  if (!name || !email || !subject || !message) {
-    return res.status(400).json({ error: 'All fields are required' });
+  // Truthiness alone let objects and arrays through: better-sqlite3 then
+  // throws on the bind, the row is never saved, and the route still reported
+  // success while mailing "[object Object]".
+  const fields = { name, email, subject, message };
+  for (const [key, value] of Object.entries(fields)) {
+    if (typeof value !== 'string' || !value.trim()) {
+      return res.status(400).json({ error: `${key} is required` });
+    }
+    if (value.length > 5000) {
+      return res.status(400).json({ error: `${key} is too long` });
+    }
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -25,6 +34,11 @@ router.post('/', async (req, res) => {
 
   // Rate limit. req.ip is the real client IP because index.js sets trust proxy.
   const ip = req.ip;
+  // Drop expired entries so the map does not grow for the life of the process.
+  const now = Date.now();
+  for (const [key, at] of recentSenders) {
+    if (now - at > COOLDOWN_MS) recentSenders.delete(key);
+  }
   const lastSent = recentSenders.get(ip);
   if (lastSent && Date.now() - lastSent < COOLDOWN_MS) {
     return res.status(429).json({ error: 'Please wait before sending another message' });

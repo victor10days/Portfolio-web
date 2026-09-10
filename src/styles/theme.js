@@ -14,8 +14,3 @@ export const COLORS = {
 };
 
 export const FONT = 'Georgia, serif';
-
-export const BREAKPOINTS = {
-  mobile: 640,
-  tablet: 960,
-};

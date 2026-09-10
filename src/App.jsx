@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LanguageProvider } from './hooks/useLanguage';
+import { LanguageProvider } from './hooks/LanguageProvider';
 import Home from './pages/Home.jsx';
 
 // The home page is the site; it loads with the bundle. Only the admin waits for its own chunk.

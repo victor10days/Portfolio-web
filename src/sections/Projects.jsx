@@ -3,14 +3,28 @@ import { t } from '../content/translations';
 import Section from '../components/Section';
 import ProjectCard from '../components/ProjectCard';
 import { useApi } from '../hooks/useApi';
+import { scrollToElement } from '../lib/scroll';
 
-const CATEGORY_ORDER = ['Interactive', 'Audio', 'Full-Stack Development'];
+const CATEGORY_ORDER = ['Interactive', 'Audio', 'Audio Software', 'Full-Stack Development'];
 
 const Projects = () => {
   const { lang } = useLanguage();
-  const { data: projectsData, loading } = useApi('/api/projects');
+  const { data: projectsData, loading, error } = useApi('/api/projects');
 
-  if (loading || !projectsData) return null;
+  // The Section renders in every state. On a cold start the API can take tens
+  // of seconds, and if #projects does not exist yet, Header.go() optional-
+  // chains past the missing element and the nav link silently does nothing.
+  if (loading) {
+    return <Section id="projects" title={t('projects.title', lang)} className="section--work" />;
+  }
+
+  if (error || !projectsData) {
+    return (
+      <Section id="projects" title={t('projects.title', lang)} className="section--work">
+        <p className="note">{t('errors.list', lang)}</p>
+      </Section>
+    );
+  }
 
   const grouped = {};
   for (const cat of CATEGORY_ORDER) {
@@ -21,7 +35,7 @@ const Projects = () => {
     if (galleryId == null) return;
     const galleryEl = document.getElementById('gallery');
     if (galleryEl) {
-      galleryEl.scrollIntoView({ behavior: 'smooth' });
+      scrollToElement(galleryEl);
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('open-gallery-item', { detail: { galleryId } }));
       }, 500);
