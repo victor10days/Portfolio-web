@@ -798,6 +798,172 @@ textarea.input {
   color: var(--color-muted);
 }
 
+/* --- ambient sound toggle: the sketch's one control, on the page's tokens --- */
+
+.audio {
+  position: fixed;
+  right: var(--space-md);
+  bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
+  z-index: var(--z-sticky);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  background: color-mix(in oklch, var(--color-paper) 85%, transparent);
+  border: var(--rule-hair) solid var(--color-rule);
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+.audio[aria-pressed='true'] {
+  color: var(--color-ink);
+}
+
+@media (hover: hover) {
+  .audio:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+
+/* --- lightbox: the gallery's modal, on the same tokens as the page --- */
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--space-xl);
+  background: oklch(0% 0 0 / 0.92);
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  .lb {
+    padding: var(--space-md);
+  }
+}
+
+.lb__panel {
+  width: 100%;
+  max-width: 56rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.lb__close {
+  align-self: flex-end;
+  background: none;
+  border: 0;
+  padding: var(--space-2xs) var(--space-xs);
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.lb__media {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin-bottom: var(--space-md);
+}
+
+.lb__media--portrait {
+  max-width: 25rem;
+  margin-inline: auto;
+  padding-bottom: 75%;
+}
+
+.lb__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.lb__img,
+.lb__video {
+  width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  margin-bottom: var(--space-md);
+}
+
+.lb__video {
+  background: oklch(0% 0 0);
+}
+
+.lb__caption {
+  text-align: center;
+}
+
+.lb__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-3xs);
+}
+
+.lb__cat {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.lb__desc {
+  max-width: 62ch;
+  margin: 0 auto;
+  color: var(--color-ink-2);
+}
+
+.lb__nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.lb__step {
+  background: none;
+  border: 0;
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .lb__close:hover,
+  .lb__step:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* Quiet stand-in when a list cannot load. No toast, no icon: the sketch
+   moves, the page does not. */
+.note {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  padding-top: var(--space-sm);
+  margin: 0;
+}
+
 .foot__links {
   display: flex;
   flex-wrap: wrap;

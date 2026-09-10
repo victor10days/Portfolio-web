@@ -194,6 +194,31 @@ const translations = {
     error: { en: 'Failed to send. Try again.', es: 'Error al enviar. Int\u00e9ntalo de nuevo.' },
   },
 
+  // Interface strings that are not body copy but are still read aloud.
+  a11y: {
+    skip: { en: 'Skip to content', es: 'Saltar al contenido' },
+    nav: { en: 'Primary', es: 'Principal' },
+    top: { en: 'Back to the top', es: 'Volver arriba' },
+    menuOpen: { en: 'Open the menu', es: 'Abrir el men\u00fa' },
+    menuClose: { en: 'Close the menu', es: 'Cerrar el men\u00fa' },
+    sound: { en: 'Ambient sound', es: 'Sonido ambiental' },
+  },
+
+  lightbox: {
+    prev: { en: 'Prev', es: 'Anterior' },
+    next: { en: 'Next', es: 'Siguiente' },
+    close: { en: 'Close', es: 'Cerrar' },
+  },
+
+  // Shown in place of a list when its API call fails, so the section and its
+  // anchor survive instead of the whole block vanishing.
+  errors: {
+    list: {
+      en: 'This list is not loading right now.',
+      es: 'Esta lista no est\u00e1 cargando ahora mismo.',
+    },
+  },
+
   // Footer
   footer: {
     statement: { en: 'Tell me what you are making.', es: 'Cu\u00e9ntame qu\u00e9 est\u00e1s haciendo.' },

@@ -8,9 +8,18 @@ const CATEGORY_ORDER = ['Interactive', 'Audio', 'Audio Software', 'Full-Stack De
 
 const Projects = () => {
   const { lang } = useLanguage();
-  const { data: projectsData, loading } = useApi('/api/projects');
+  const { data: projectsData, loading, error } = useApi('/api/projects');
 
-  if (loading || !projectsData) return null;
+  if (loading) return null;
+
+  // Keep the Section (and its #projects anchor) so the nav still works.
+  if (error || !projectsData) {
+    return (
+      <Section id="projects" title={t('projects.title', lang)} className="section--work">
+        <p className="note">{t('errors.list', lang)}</p>
+      </Section>
+    );
+  }
 
   const grouped = {};
   for (const cat of CATEGORY_ORDER) {

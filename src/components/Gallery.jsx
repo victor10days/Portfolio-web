@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useLanguage } from '../hooks/useLanguage';
+import { t } from '../content/translations';
 import { useApi } from '../hooks/useApi';
 import Lightbox from './Lightbox';
 
@@ -17,7 +18,7 @@ const repoPath = (item) => item.image.split('/').slice(-2).join('/');
 const Gallery = () => {
   const { lang } = useLanguage();
   const [selected, setSelected] = useState(null);
-  const { data: gallery, loading } = useApi('/api/gallery');
+  const { data: gallery, loading, error } = useApi('/api/gallery');
 
   const handleClose = useCallback(() => setSelected(null), []);
   const handlePrev = useCallback(
@@ -37,7 +38,8 @@ const Gallery = () => {
     return () => window.removeEventListener('open-gallery-item', handleOpenItem);
   }, [gallery]);
 
-  if (loading || !gallery) return null;
+  if (loading) return null;
+  if (error || !gallery) return <p className="note">{t('errors.list', lang)}</p>;
 
   return (
     <>

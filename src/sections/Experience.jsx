@@ -6,9 +6,18 @@ import { useApi } from '../hooks/useApi';
 // A sequence: the dates in the margin, hairlines between entries, nothing italic, no rail.
 const Experience = () => {
   const { lang } = useLanguage();
-  const { data, loading } = useApi('/api/experience');
+  const { data, loading, error } = useApi('/api/experience');
 
-  if (loading || !data) return null;
+  if (loading) return null;
+
+  // Keep the Section (and its #experience anchor) so the nav still works.
+  if (error || !data) {
+    return (
+      <Section id="experience" title={t('experience.title', lang)}>
+        <p className="note">{t('errors.list', lang)}</p>
+      </Section>
+    );
+  }
 
   return (
     <Section id="experience" title={t('experience.title', lang)}>

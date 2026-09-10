@@ -19,8 +19,8 @@ const Header = () => {
 
   return (
     <>
-      <nav className="nav" aria-label="Primary">
-        <button type="button" className="nav__mark" onClick={() => go('hero')} aria-label="Back to the top">
+      <nav className="nav" aria-label={t('a11y.nav', lang)}>
+        <button type="button" className="nav__mark" onClick={() => go('hero')} aria-label={t('a11y.top', lang)}>
           V<i>.</i>10
         </button>
         <ul className="nav__links">
@@ -44,7 +44,7 @@ const Header = () => {
           type="button"
           className="nav__menu"
           onClick={() => setOpen((o) => !o)}
-          aria-label={open ? 'Close the menu' : 'Open the menu'}
+          aria-label={open ? t('a11y.menuClose', lang) : t('a11y.menuOpen', lang)}
           aria-expanded={open}
           aria-controls="nav-sheet"
         >
