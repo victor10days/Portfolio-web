@@ -26,3 +26,26 @@ jobs:
       # seed inserts cleanly against a fresh database, including the link
       # column and its migration.
       - run: npm run build
+
+  deploy:
+    # Render's own auto-deploy is set to "On Commit" but has never fired for
+    # this service: every deploy in its history is trigger "Manual", and the
+    # merge of #7 produced no event at all. So the deploy is triggered here,
+    # from a hook, which has the better shape anyway — a push that fails lint,
+    # tests or build never reaches the site.
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Render deploy
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK is not set on this repository." >&2
+            exit 1
+          fi
+          # Only the status code is printed. The hook URL is a credential.
+          code=$(curl -sS -X POST -o /dev/null -w '%{http_code}' "$HOOK")
+          echo "Render answered $code"
+          [ "$code" = "200" ] || exit 1
