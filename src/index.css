@@ -548,30 +548,8 @@ button.work__row {
   display: block;
 }
 
-.tile__cover {
-  height: 100%;
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  background: var(--color-paper-3);
-}
 
-.tile__cover b {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: var(--text-lg);
-  line-height: 1.1;
-  color: var(--color-ink);
-}
 
-.tile__cover span {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  overflow-wrap: anywhere;
-}
 
 .tile__play {
   position: absolute;

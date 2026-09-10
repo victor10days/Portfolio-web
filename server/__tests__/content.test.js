@@ -36,6 +36,19 @@ describe('projects', () => {
     }
   });
 
+  it('points at the gallery piece of the same name', () => {
+    // Gallery ids are positional, so removing or inserting an item renumbers
+    // everything after it. An id that is merely in range is not enough: a
+    // wrong-but-valid id silently opens the wrong piece. Every project that
+    // has a gallery piece is named after it, so that is the invariant.
+    for (const p of projects) {
+      if (p.gallery_id == null) continue;
+      const item = gallery[p.gallery_id - 1];
+      expect(item, `"${p.name_en}" -> gallery_id ${p.gallery_id}`).toBeDefined();
+      expect(item.title_en, `"${p.name_en}" -> gallery_id ${p.gallery_id}`).toBe(p.name_en);
+    }
+  });
+
   it('every link is http(s) — ProjectCard drops anything else', () => {
     for (const p of projects) {
       if (p.link == null) continue;
