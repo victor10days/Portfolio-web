@@ -709,7 +709,11 @@ button.work__row {
   padding: 0 var(--space-sm);
   background: var(--color-paper-2);
   color: var(--color-ink);
-  border: var(--rule-hair) solid var(--color-rule);
+  /* --color-rule is the divider language, but at 1.44:1 against the page it
+     cannot be the only thing marking a form field. The fill is 1.06:1, so the
+     border is all a low-vision user has. --color-muted is 6.81:1 and stays a
+     hairline, so the field reads as a field without shouting. (WCAG 1.4.11) */
+  border: var(--rule-hair) solid var(--color-muted);
   border-radius: var(--radius-input);
   font: inherit;
   font-size: var(--text-base);
@@ -733,7 +737,7 @@ textarea.input {
 
 .input:focus-visible {
   outline-color: var(--color-focus);
-  border-color: var(--color-rule);
+  border-color: var(--color-muted);
 }
 
 .input::placeholder {
