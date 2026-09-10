@@ -9,10 +9,11 @@ dist/
 /Screenshot*
 FLYER*
 
-# Database (rebuilt by seed on deploy)
-server/data/portfolio.db
-server/data/portfolio.db-wal
-server/data/portfolio.db-shm
+# Database (rebuilt by seed on deploy). Globbed because iCloud sync on the
+# Desktop produces "portfolio 2.db-wal" style duplicates.
+server/data/*.db
+server/data/*.db-wal
+server/data/*.db-shm
 
 # OS files
 .DS_Store
