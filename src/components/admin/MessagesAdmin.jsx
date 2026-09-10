@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { COLORS, FONT } from '../../styles/theme';
 
 const btnStyle = {
@@ -15,12 +15,12 @@ const MessagesAdmin = ({ token }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
-    setLoading(true);
-    setError('');
+  // The fetch itself, with no synchronous setState, so the mount effect can
+  // call it directly (react-hooks/set-state-in-effect).
+  const fetchMessages = useCallback(() => {
     // Unlike the other admin GETs, /api/contacts is auth-protected, so the
     // Bearer token must be sent.
-    fetch('/api/contacts', { headers: { Authorization: `Bearer ${token}` } })
+    return fetch('/api/contacts', { headers: { Authorization: `Bearer ${token}` } })
       .then((r) => {
         if (!r.ok) {
           throw new Error(r.status === 401 ? 'Session expired — log in again.' : 'Failed to load messages.');
@@ -30,9 +30,17 @@ const MessagesAdmin = ({ token }) => {
       .then((rows) => setItems(rows))
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
+  }, [token]);
+
+  // The Refresh button resets the visible state first; the mount path does not
+  // need to, because that is already the initial state.
+  const load = () => {
+    setLoading(true);
+    setError('');
+    fetchMessages();
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { fetchMessages(); }, [fetchMessages]);
 
   return (
     <div>
